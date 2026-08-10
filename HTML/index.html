@@ -2,60 +2,107 @@
 <html lang="en">
   <head>
     <title>Emne 1 Tasks Lars Vetle Johnsrud</title>
+    <style>
+      body {
+        background-image: url("images/programming-bg.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: #d0dae7;
+      }
 
+      .content-box {
+        background-color: #161922;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+        border-radius: 15px;
+        border: 3px groove #f44e01;
+        box-shadow: 0 10px 30px #f44e01;
+      }
 
-    
+      .header-box {
+        background-color: #0f1117;
+        margin: 60px;
+        /* padding: 30px; */
+        border-radius: 15px;
+        border: 3px groove #f44e01;
+        box-shadow: 0 10px 30px #f44e01;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
   </head>
 
   <body>
-    <h1>Emne 1 Oppgave i HTML,CSS og JS for Lars Vetle Johnsrud</h1>
-    <p><a href="https://inside.getacademy.no/#113">Lenke til oppgaven</a></p>
-    <h2>Unumerert Liste</h2>
+    <div class="content-box">
+      <h1>Emne 1 - Oppgaver i HTML, CSS og JS</h1>
+      <div class="header-box">
+        <p>
+          <img
+            src="images/GET_RGB_logo-01-2.png"
+            alt="Bilde av Get Academy sin Logo"
+            width="350"
+            height="150"
+          />
+        </p>
+      </div>
 
-    <ul>
-      <li>Listepunkt 1</li>
-      <li>Listepunkt 2</li>
-      <li>Listepunkt 3</li>
-    </ul>
+      <h2>Oppgavetekst:</h2>
+      <p>Oppgaveteksten finnes på Get Academy sine nettsider og kan nås her:</p>
+      <p><a href="https://inside.getacademy.no/#113">Lenke til oppgaven</a></p>
+      <h2>Dette er en øvelse i følgende emner:</h2>
 
-    <h3>Numerert Liste</h3>
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>Javascript</li>
+      </ul>
 
-    <ol>
-      <li>Nummerert Listepunkt 1</li>
-      <li>Nummerert Listepunkt 2</li>
-      <li>Nummerert Listepunkt 3</li>
-    </ol>
+      <h3>Andre ting som er øvd på:</h3>
 
-    <p>
-      <img
-        src="images/GET_RGB_logo-01-2.png"
-        alt="Bilde av Get Academy sin Logo"
-        width="500"
-        height="250"
+      <ol>
+        <li>Å lage lister med punkter og numerering</li>
+        <li>
+          Bruk av farger, fonts, skriftstørrelse, padding, marginer,
+          forskjellige enheter, rammer med avrundinger.
+        </li>
+      </ol>
+
+      <p>Har jeg gjort alle oppgavene så jeg er fornøyd?</p>
+
+      <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
+      <label for="vehicle1"> Ja, det syntes jeg!</label><br />
+      <input type="checkbox" id="vehicle2" name="vehicle2" value="Car" />
+      <label for="vehicle2">
+        Nesten, men jeg må skrive mer rapport/dokumentasjon og
+        refleksjon.</label
+      ><br />
+      <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat" />
+      <label for="vehicle3"> Nei, men nå skal jeg virkelig sette i gang!</label
+      ><br />
+
+      <br />
+
+      <p>Hva har vært mest gøy å jobbe med så langt?</p>
+
+      <input type="radio" id="html" name="fav_language" value="HTML" />
+      <label for="html">HTML</label><br />
+      <input type="radio" id="css" name="fav_language" value="CSS" />
+      <label for="css">CSS</label><br />
+      <input
+        type="radio"
+        id="javascript"
+        name="fav_language"
+        value="JavaScript"
       />
-    </p>
+      <label for="javascript">JavaScript</label>
 
-    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-    <label for="vehicle1"> I have a bike</label><br />
-    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car" />
-    <label for="vehicle2"> I have a car</label><br />
-    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat" />
-    <label for="vehicle3"> I have a boat</label><br />
-
-    <br />
-
-    <input type="radio" id="html" name="fav_language" value="HTML" />
-    <label for="html">HTML</label><br />
-    <input type="radio" id="css" name="fav_language" value="CSS" />
-    <label for="css">CSS</label><br />
-    <input
-      type="radio"
-      id="javascript"
-      name="fav_language"
-      value="JavaScript"
-    />
-    <label for="javascript">JavaScript</label>
-
-    <p><button>Button 1</button></p>
+      <p><button>Send Inn</button></p>
+    </div>
   </body>
 </html>
