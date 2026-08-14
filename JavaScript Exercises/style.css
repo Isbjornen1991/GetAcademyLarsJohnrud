@@ -1,0 +1,31 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.buttonholder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 25px;
+}
+
+.numberholder {
+  size: 1rem;
+  margin: 50px;
+}
+
+.buttonbox {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
+  line-height: 1;
+}
