@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      :root {
+        --font-size: 16px;
+        --font-family: Arial, Helvetica, sans-serif;
+      }
+
+      p {
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p id="text" style="background-color: rgb(125, 125, 125)">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe amet
+        magni veniam debitis perspiciatis doloribus dolorum rerum earum ratione
+        expedita molestias, praesentium numquam quidem! Error impedit quidem est
+        veniam nisi?
+      </p>
+    </div>
+
+    <div>
+      <button onclick="increaseFontSize()">Increase Font Size</button>
+      <button onclick="decreaseFontSize()">Decrease Font Size</button>
+
+      <select onchange="selectFontFamily(this.value)">
+        <option>Arial</option>
+        <option>Verdana</option>
+        <option>Tahoma</option>
+        <option>Trebuchet MS</option>
+        <option>Times New Roman</option>
+        <option>Georgia</option>
+        <option>Garamond</option>
+        <option>Courier New</option>
+        <option>Brush Script MT</option>
+      </select>
+    </div>
+
+    <div id="info"></div>
+
+    <div>
+      <button onclick="changeColorVal('red', 5)">Increase Red</button>
+      <button onclick="changeColorVal('red', -5)">Decrease Red</button>
+
+      <button onclick="changeColorVal('green', 5)">Increase Green</button>
+      <button onclick="changeColorVal('green', -5)">Decrease Green</button>
+
+      <button onclick="changeColorVal('blue', 5)">Increase Blue</button>
+      <button onclick="changeColorVal('blue', -5)">Decrease Blue</button>
+    </div>
+
+    <script>
+      let currentFontSize = 16;
+
+      let redValue = 125;
+      let greenValue = 125;
+      let blueValue = 125;
+
+      function increaseFontSize() {
+        currentFontSize++;
+        document.documentElement.style.setProperty(
+          "--font-size",
+          currentFontSize + "px",
+        );
+      }
+
+      function decreaseFontSize() {
+        currentFontSize--;
+        document.documentElement.style.setProperty(
+          "--font-size",
+          currentFontSize + "px",
+        );
+      }
+
+      function selectFontFamily(fontFamily) {
+        document.getElementById("info").innerHTML =
+          `Du har valgt ${fontFamily}.`;
+        document.documentElement.style.setProperty("--font-family", fontFamily);
+      }
+
+      function changeColorVal(colorName, amount) {
+        if (colorName === "red") {
+          redValue = Math.min(255, Math.max(0, redValue + amount));
+        } else if (colorName === "green") {
+          greenValue = Math.min(255, Math.max(0, greenValue + amount));
+        } else if (colorName === "blue") {
+          blueValue = Math.min(255, Math.max(0, blueValue + amount));
+        }
+
+        updateBackgroundColor();
+      }
+
+      function updateBackgroundColor() {
+        document.getElementById("text").style.backgroundColor =
+          `rgb(${redValue}, ${greenValue}, ${blueValue})`;
+      }
+    </script>
+  </body>
+</html>

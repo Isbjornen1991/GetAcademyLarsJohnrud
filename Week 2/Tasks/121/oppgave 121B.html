@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temperaturmålinger</title>
+    <style>
+      .contentBox {
+        display: flex;
+        width: fit-content;
+        margin: 20px auto;
+        justify-content: center;
+        align-items: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        font-family: sans-serif;
+      }
+
+      td,
+      th {
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        text-align: center;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      th {
+        background-color: #04aa6d;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contentBox">
+      <!-- The main table frame with our target ID -->
+      <table id="myTable"></table>
+    </div>
+
+    <script>
+      // 1. Reusable helper function to insert a single row
+      function addRow(cellType, col1, col2, col3, col4) {
+        const table = document.getElementById("myTable");
+
+        table.innerHTML += /*HTML*/ `
+          <tr>
+            <${cellType}>${col1}</${cellType}>
+            <${cellType}>${col2}</${cellType}>
+            <${cellType}>${col3}</${cellType}>
+            <${cellType}>${col4}</${cellType}>
+          </tr>
+        `;
+      }
+
+      // 2. Main function that orchestrates building the whole table
+      function drawApp() {
+        // Clear previous content if needed
+        document.getElementById("myTable").innerHTML = "";
+
+        // Add header row
+        addRow("th", "Dag", "Time", "Minutt", "Temperatur");
+
+        // Add data rows
+        addRow("td", 1, 10, 0, 5);
+        addRow("td", 1, 10, 15, 6);
+        addRow("td", 1, 10, 30, 7);
+      }
+
+      // 3. Initialize the table
+      drawApp();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    /*This version of the code allows for the chaning of the style in CSS rather
+    than targetting the ID of the specific paragraph. This, to me, seems like a
+    better way of doing a global change, rather than just a specific paragraph
+    and it follows the DRY principle */
+
+    <style>
+      :root {
+        --font-size: 16px; /* Define CSS variable */
+      }
+
+      p {
+        font-size: var(--font-size); /* Reference CSS variable */
+      }
+    </style>
+  </head>
+  <body>
+    <p id="text">
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe amet magni
+      veniam debitis perspiciatis doloribus dolorum rerum earum ratione expedita
+      molestias, praesentium numquam quidem! Error impedit quidem est veniam
+      nisi?
+    </p>
+    <button onclick="increaseFontSize()">Increase Font Size</button>
+    <button onclick="decreaseFontSize()">Decrease Font Size</button>
+    <script>
+      let currentFontSize = 16;
+
+      function increaseFontSize() {
+        currentFontSize++;
+        document.documentElement.style.setProperty(
+          "--font-size",
+          currentFontSize + "px",
+        );
+      }
+
+      function decreaseFontSize() {
+        currentFontSize--;
+        document.documentElement.style.setProperty(
+          "--font-size",
+          currentFontSize + "px",
+        );
+      }
+    </script>
+  </body>
+</html>

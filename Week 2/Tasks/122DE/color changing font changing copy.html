@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      :root {
+        --font-size: 16px;
+        --font-family: Arial, Helvetica, sans-serif;
+      }
+
+      p {
+        font-size: var(--font-size);
+        font-family: var(--font-family);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p id="text" style="background-color: rgb(125, 125, 125)">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe amet
+        magni veniam debitis perspiciatis doloribus dolorum rerum earum ratione
+        expedita molestias, praesentium numquam quidem! Error impedit quidem est
+        veniam nisi?
+      </p>
+    </div>
+
+    <div>
+      <button onclick="increaseFontSize()">Increase Font Size</button>
+      <button onclick="decreaseFontSize()">Decrease Font Size</button>
+
+      <select onchange="selectFontFamily(this.value)">
+        <option>Arial</option>
+        <option>Verdana</option>
+        <option>Tahoma</option>
+        <option>Trebuchet MS</option>
+        <option>Times New Roman</option>
+        <option>Georgia</option>
+        <option>Garamond</option>
+        <option>Courier New</option>
+        <option>Brush Script MT</option>
+      </select>
+    </div>
+
+    <div id="info"></div>
+
+    <div>
+      <button onclick="increaseRed()">Increase Red</button>
+      <button onclick="decreaseRed()">Decrease Red</button>
+
+      <button onclick="increaseGreen()">Increase Green</button>
+      <button onclick="decreaseGreen()">Decrease Green</button>
+
+      <button onclick="increaseBlue()">Increase Blue</button>
+      <button onclick="decreaseBlue()">Decrease Blue</button>
+    </div>
+
+    <script>
+      let currentFontSize = 16;
+
+      let redValue = 125;
+      let greenValue = 125;
+      let blueValue = 125;
+
+      function increaseFontSize() {
+        currentFontSize++;
+        document.documentElement.style.setProperty(
+          "--font-size",
+          currentFontSize + "px",
+        );
+      }
+
+      function decreaseFontSize() {
+        currentFontSize--;
+        document.documentElement.style.setProperty(
+          "--font-size",
+          currentFontSize + "px",
+        );
+      }
+
+      function selectFontFamily(fontFamily) {
+        document.getElementById("info").innerHTML =
+          `Du har valgt ${fontFamily}.`;
+        document.documentElement.style.setProperty("--font-family", fontFamily);
+      }
+
+      function increaseRed() {
+        redValue = redValue + 5;
+        updateBackgroundColor();
+      }
+
+      function decreaseRed() {
+        redValue = redValue - 5;
+        updateBackgroundColor();
+      }
+
+      function increaseGreen() {
+        greenValue = greenValue + 5;
+        updateBackgroundColor();
+      }
+
+      function decreaseGreen() {
+        greenValue = greenValue - 5;
+        updateBackgroundColor();
+      }
+
+      function increaseBlue() {
+        blueValue = blueValue + 5;
+        updateBackgroundColor();
+      }
+
+      function decreaseBlue() {
+        blueValue = blueValue - 5;
+        updateBackgroundColor();
+      }
+
+      function updateBackgroundColor() {
+        document.getElementById("text").style.backgroundColor =
+          `rgb(${redValue},${greenValue},${blueValue})`;
+      }
+    </script>
+  </body>
+</html>

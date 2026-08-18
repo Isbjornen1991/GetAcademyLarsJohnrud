@@ -1,0 +1,85 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    #board {
+      display: grid;
+      grid-template-columns: repeat(8, 100px);
+      grid-auto-rows: 100px;
+    }
+
+    #board > div {
+      border: 1px solid lightblue;
+    }
+
+    .selected {
+      background-color: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="board"></div>
+
+  <button onclick="up()">Up</button>
+  <button onclick="down()">Down</button>
+  <button onclick="left()">Left</button>
+  <button onclick="right()">Right</button>
+  <script>
+    let selectedSquareIndex = 7;
+    const size = 64;
+    const pattern = "<div></div>";
+
+    showBoard();
+
+    // function addEmptyDiv(amount) {
+    //   /*Defines the pattern, ie what it should look like.
+    //                                     Without this, the padEnd would potentially end up
+    //                                     just doing a portion of the needed code.*/
+    //   const emptyDivs = "".padEnd(pattern.length * amount, pattern);
+    //   /* "" in this case is used to call up functions available to strings by default.
+    //   It's empty, but it gives access. .padEnd is the tool that we are getting out of that empty string.
+    //   It takes two args:
+    //   1: How long the final string should be.
+    //   2: what text should be used to fill (or pad) that space.
+    //   pattern.length is used to define what 1 should be, per square. amount is used to define how many squares.
+    //   This gives the code instructions on how many squares there should be and what is needed to get to that amount.
+    //   It *does not* however tell it what to fill it with, just for how long.
+    //   This is where the pattern variable comes in next, and instructs it, hey, fill it with the contents of this variable. */
+    //   document.getElementById("board").innerHTML += emptyDivs;
+    //   // This then adds the result from const emptyDivs to the board.
+    // }
+
+    function showBoard() {
+      document.getElementById("board").innerHTML =
+        pattern.repeat(selectedSquareIndex);
+      //This essentially clears the board
+
+      //This then adds all the squares before the selected square.
+      document.getElementById("board").innerHTML +=
+        '<div class="selected"></div>';
+      //This then creates the selected square
+      document.getElementById("board").innerHTML += pattern.repeat(
+        size - (selectedSquareIndex + 1),
+      );
+      //Finally this creates the empty squares after the selected div
+    }
+
+    function up() {
+      selectedSquareIndex = selectedSquareIndex - 8;
+      showBoard();
+    }
+    function down() {
+      selectedSquareIndex = selectedSquareIndex + 8;
+      showBoard();
+    }
+    function left() {
+      selectedSquareIndex--;
+      showBoard();
+    }
+    function right() {
+      selectedSquareIndex++;
+      showBoard();
+    }
+  </script>
+</body>

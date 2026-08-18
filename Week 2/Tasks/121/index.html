@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="addCircleFromInput()">Legg til sirkel</button>
+
+    <button onclick="addSquareFromInput()">Add a square</button>
+
+    <!-- <button onclick="addCircle(70)">Legg til sirkel med X pos 70</button> -->
+    <input type="number" id="xInput" value="350" />
+    <input type="number" id="yInput" value="250" />
+    <button onclick="setBGColor(document.getElementById('inputBGColor').value)">
+      Set backgroundcolor
+    </button>
+    <select id="inputBGColor">
+      <option value="">--Please choose your background color</option>
+      <option value="lightgray">lightgray</option>
+      <option value="lightblue">lightblue</option>
+      <option value="red">red</option>
+      <option value="green">green</option>
+      <option value="purple">purple</option>
+    </select>
+    <br />
+    <svg
+      id="mySvg"
+      width="800"
+      height="600"
+      style="background-color: lightgray"
+    ></svg>
+    <script>
+      function addCircleFromInput() {
+        const xValue = document.getElementById("xInput").value;
+        const yValue = document.getElementById("yInput").value;
+
+        addCircle(xValue, yValue);
+      }
+
+      function addSquareFromInput() {
+        const xValue = document.getElementById("xInput").value;
+        const yValue = document.getElementById("yInput").value;
+
+        addSquare(xValue, yValue);
+      }
+
+      function addCircle(x, y) {
+        document.getElementById("mySvg").innerHTML = /*HTML*/ `
+          <circle cx="${x}" cy="${y}" r="40" stroke="green" stroke-width="4" fill="yellow" />            
+      `;
+      }
+
+      function addSquare(x, y) {
+        // Target your main SVG canvas: mySvg
+        document.getElementById("mySvg").innerHTML = /*HTML*/ `
+      <rect x="${x}" y="${y}" width="80" height="80" stroke="green" stroke-width="4" fill="yellow" />            
+  `;
+      }
+      function setBGColor(color) {
+        document.body.style.backgroundColor = color;
+      }
+    </script>
+  </body>
+</html>

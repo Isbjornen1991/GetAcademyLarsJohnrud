@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    /* This version of the code targets the specific paragraph using an ID tag.
+    This seems useful for targetting specific paragraphs, but it falls short of
+    allowing for global changes, which might make more sense in most cases. */
+
+    <style>
+      p {
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="text">
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe amet magni
+      veniam debitis perspiciatis doloribus dolorum rerum earum ratione expedita
+      molestias, praesentium numquam quidem! Error impedit quidem est veniam
+      nisi?
+    </p>
+    <button onclick="increaseFontSize()">Increase Font Size</button>
+    <button onclick="decreaseFontSize()">Decrease Font Size</button>
+    <script>
+      let currentFontSize = 16;
+      const paragraph = document.getElementById("text");
+
+      function increaseFontSize() {
+        currentFontSize++;
+        paragraph.style.fontSize = currentFontSize + "px";
+      }
+
+      function decreaseFontSize() {
+        currentFontSize--;
+        paragraph.style.fontSize = currentFontSize + "px";
+      }
+    </script>
+  </body>
+</html>
