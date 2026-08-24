@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+      div {
+        font-size: 300%;
+        user-select: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script>
+      // model
+      let points = 0;
+      let pointsPerClick = 1;
+      let smileyIndex = 0;
+      let hasCheated = false;
+      let smiley;
+
+      // controller
+      function doClick() {
+        points += pointsPerClick;
+        smileyIndex = 1 - smileyIndex;
+        updateView();
+      }
+
+      function buyUpgrade() {
+        if (points < 10) return;
+        points -= 10;
+        pointsPerClick++;
+        updateView();
+      }
+
+      function cheatButton() {
+        points = points * 10;
+        pointsPerClick = pointsPerClick * 10;
+        hasCheated = true;
+        updateView();
+      }
+
+      // view
+      updateView();
+      function updateView() {
+        if (hasCheated == false) {
+          smiley = smileyIndex == 0 ? "😀" : "😁";
+        } else {
+          smiley = smileyIndex == 0 ? "👿" : "🤬";
+        }
+
+        document.getElementById("app").innerHTML = /*HTML*/ `
+                <div id="image" onclick="doClick()">${smiley}</div>
+                <div id="pointsInfo">${points}</div>
+                
+                <button onclick="buyUpgrade()">Kjøp oppgradering (10 poeng)</button>
+                
+                <p>Hvor mye er et klikk verdt:</p>
+                <div id="valueofClick">${pointsPerClick}</div>
+                
+                <div>
+                <button onclick="cheatButton()">Trykk her for å jukse!</button>
+                </div>
+                
+                <div id ="cheaterArea" style="display: ${hasCheated ? "block" : "none"};"> 
+                    Du har jukset!
+                    </div>
+            `;
+      } // Det er interessant at man kan bruke "visible" som verdi ovenfor, men det er fordi det bare defaulter til "block" da det er default value.
+    </script>
+  </body>
+</html>

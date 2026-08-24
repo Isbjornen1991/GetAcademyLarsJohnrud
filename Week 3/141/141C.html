@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oppgave 141 C</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      // 1. MODEL
+      let chosenBGcolor = "white";
+      let chosenFGcolor = "black";
+      let boxesHTML = ""; // Lagrer HTML-en for alle nye diver
+
+      // 2. VIEW
+      function updateView() {
+        document.getElementById("app").innerHTML = /*HTML*/ `
+          <div>
+            <label>Bakgrunn:</label>
+            <select onchange="chosenBGcolor = this.value">
+              <option value="white">Hvit</option>
+              <option value="red">Rød</option>
+              <option value="yellow">Gul</option>
+              <option value="blue">Blå</option>
+            </select>
+
+            <select onchange="chosenFGcolor = this.value">
+              <option value="black">Svart tekst</option>
+              <option value="white">Hvit tekst</option>
+              <option value="red">Rød tekst</option>
+              <option value="blue">Blå tekst</option>
+            </select>
+
+            <button onclick="addDiv()">Legg til div</button>
+          </div>
+
+          <div id="boxesContainer">
+            ${boxesHTML}
+          </div>
+        `;
+      }
+
+      // 3. CONTROLLER
+      function addDiv() {
+        boxesHTML += /*HTML*/ `
+          <div style="background-color: ${chosenBGcolor}; color: ${chosenFGcolor}; padding: 10px; margin: 5px; border: 1px solid #ccc;">
+            Ny div med ${chosenBGcolor} bakgrunn og ${chosenFGcolor} tekst!
+          </div>
+        `;
+
+        updateView();
+      }
+
+      // Init
+      updateView();
+    </script>
+  </body>
+</html>
