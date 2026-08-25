@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>145A My Version</title>
+
+    <style>
+      div.square {
+        border: 1px solid gray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      div.board {
+        display: grid;
+        grid-template-columns: repeat(2, 10rem);
+        grid-template-rows: repeat(2, 10rem);
+      }
+
+      div.buttons {
+        width: 20rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      img {
+        width: 90%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      //Variables
+      const logo = /*HTML*/ `<img src="https://getacademy.no/hubfs/GET_RGB_logo-01-2.png" />`;
+
+      const board = /*HTML*/ `
+        <div class="board">
+        <div class="square" id="slot1"></div>
+        <div class="square" id="slot2"></div>
+        <div class="square" id="slot3"></div>
+        <div class="square" id="slot4"></div>
+      </div>`;
+
+      const buttonArea = /*HTML*/ `
+       <div class="buttons">
+        <button id="btnUp" onclick="moveUp()">▲</button>
+        <div>
+          <button id="btnLeft" onclick="moveLeft()">◀</button>
+          <button id="btnRight" onclick="moveRight()">▶</button>
+        </div>
+        <button id="btnDown" onclick="moveDown()">▼</button>
+      </div>`;
+
+      let currentlogoPos = 0;
+      let newlogoPos = 0;
+
+      //Functions for drawing the board
+      function drawBoard() {
+        document.getElementById("app").innerHTML += board;
+        document.getElementById("app").innerHTML += buttonArea;
+      }
+
+      //Setting up the initial pos of the logo
+      function startPos() {
+        currentlogoPos = 1;
+        document.getElementById("slot1").innerHTML += logo;
+        updateButtons();
+      }
+
+      //Updating the position of the logo
+      function updatePosition(newPos) {
+        document.getElementById(`slot${currentlogoPos}`).innerHTML = "";
+
+        currentlogoPos = newPos;
+
+        document.getElementById(`slot${currentlogoPos}`).innerHTML = logo;
+        updateButtons();
+      }
+
+      //Movement functions
+      function moveUp() {
+        if (currentlogoPos > 2) {
+          updatePosition(currentlogoPos - 2);
+        }
+      }
+
+      function moveDown() {
+        if (currentlogoPos <= 2) {
+          updatePosition(currentlogoPos + 2);
+        }
+      }
+
+      function moveLeft() {
+        if (currentlogoPos === 2 || currentlogoPos === 4) {
+          updatePosition(currentlogoPos - 1);
+        }
+      }
+
+      function moveRight() {
+        if (currentlogoPos === 1 || currentlogoPos === 3) {
+          updatePosition(currentlogoPos + 1);
+        }
+      }
+
+      // Setting the disabled state
+      function updateButtons() {
+        document.getElementById("btnUp").disabled = currentlogoPos <= 2;
+        document.getElementById("btnDown").disabled = currentlogoPos > 2;
+        document.getElementById("btnLeft").disabled =
+          currentlogoPos === 1 || currentlogoPos === 3;
+        document.getElementById("btnRight").disabled =
+          currentlogoPos === 2 || currentlogoPos === 4;
+      }
+
+      //Document Initial State Spawn
+      drawBoard();
+      startPos();
+    </script>
+  </body>
+</html>
