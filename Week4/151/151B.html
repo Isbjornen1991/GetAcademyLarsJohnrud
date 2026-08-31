@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgb(119, 124, 124);
+      }
+
+      #output {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15px;
+        gap: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const app = document.getElementById("app");
+
+      //Model
+      let startValue = 0;
+      let endValue = 10;
+      let changeBy = 1;
+
+      //View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+            <label>Starting Value:
+                <input
+                    type="number"
+                    value="${startValue}"
+                    oninput="startValue = Number(this.value)"
+                >
+            </label>
+
+            <label>Ending Value:
+                 <input
+                    type="number"
+                    value="${endValue}"
+                    oninput="endValue = Number(this.value)"
+                 >
+            </label>
+
+            <label>Increment:
+                <input
+                    type="number"
+                    value="${changeBy}"
+                    oninput="changeBy = Number(this.value)"
+                 >
+            </label>
+
+            <button onclick="increaseNumber()">Run the Process</button>
+
+            <div id="output"></div>
+            `;
+      }
+
+      updateView();
+
+      //Controller
+
+      function increaseNumber() {
+        let outputArea = document.getElementById("output");
+
+        //Defensive Coding, preventing infite loop or negative numbers or 0
+        if (changeBy <= 0) return;
+
+        //Important that its += changeBy and not + or =. Using just + seems to really cause some infinite loops,
+        //mainly becaues + just plusses, but it never actually sets anything without the =
+        for (let i = startValue; i <= endValue; i += changeBy) {
+          outputArea.innerHTML += /*HTML*/ `<div>${i}</div>`;
+        }
+      }
+    </script>
+  </body>
+</html>

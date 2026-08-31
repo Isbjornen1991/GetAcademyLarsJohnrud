@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const app = document.getElementById("app");
+      let maxWordLength = 100;
+      let theWord = "";
+      let theWordRepeated = "";
+
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+            <label>Text:
+            <input 
+                type="text"
+                value="${theWord}"
+                oninput="updateText(this.value)"
+            >
+            </label>
+            <label>Max Word Length:
+            <input
+                type="number"
+                value="${maxWordLength}"
+                oninput="maxWordLength = Number(this.value)"
+            >
+            </label>
+            <div>
+              <button onclick="doubleLength()">Repeat</button>
+            </div>
+            <div id="wordDisplay">${theWordRepeated}</div>
+            <div id="lengthDisplay">${theWordRepeated.length}</div>
+            `;
+      }
+
+      function updateText(val) {
+        theWord = val;
+        document.getElementById("wordDisplay").innerText = theWord;
+        document.getElementById("lengthDisplay").innerText = theWord.length;
+      }
+
+      function doubleLength() {
+        if (!theWord) return;
+        theWordRepeated = theWord;
+
+        while (theWordRepeated.length * 2 <= maxWordLength) {
+          theWordRepeated = theWordRepeated + theWordRepeated;
+        }
+
+        updateView();
+      }
+
+      updateView();
+    </script>
+  </body>
+</html>

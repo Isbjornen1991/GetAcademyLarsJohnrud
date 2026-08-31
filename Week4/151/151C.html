@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgb(119, 124, 124);
+        font-size: 48px;
+      }
+
+      #resultDisplay {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15px;
+        gap: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      //Model
+      let app = document.getElementById("app");
+      let inputText = "";
+      let reversedText = "";
+
+      //View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+
+        <label>Input your name:
+            <input
+            type="text"
+            value="${inputText}"
+            placeholder="Write your name..."
+            onchange="grabInput(this.value)"
+            >
+        </label>
+
+        <div id="resultDisplay">${reversedText}</div>
+    `;
+      }
+
+      //Controller
+      //Outdated method, requested by task
+      //   function nameReverser(nameToReverse) {
+      //     let reversed = "";
+      //     for (let i = nameToReverse.length - 1; i >= 0; i--) {
+      //       reversed += nameToReverse.charAt(i);
+      //     }
+      //     return reversed;
+      //   }
+
+      function grabInput(val) {
+        inputText = val;
+        reversedText = nameReverser(inputText);
+        updateView();
+      }
+
+      function nameReverser(nameToReverse) {
+        return nameToReverse.split("").reverse().join("");
+      }
+
+      updateView();
+    </script>
+  </body>
+
+  <!-- Oppgave 151 C Lag en funksjon som tar en tekst som parameter og som returnerer
+teksten snudd i motsatt rekkefølge. For eksempel skal 'Terje' bli til 'ejreT. Du
+kan hente ut en bestemt bokstav i en tekst ved hjelp av funksjonen charAt(). For
+eksempel vil 'Terje'.charAt(3) gi den fjerde bokstaven, 'j'. -->
+</html>
