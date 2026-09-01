@@ -4,6 +4,151 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 56%, 91%, 0.397), #333333);
+        font-size: 20px;
+        font-family: sans-serif;
+      }
+
+      #listContainer {
+        margin-top: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      // Model
+      const app = document.getElementById("app");
+      let forEvery = 7;
+      let startingPoint = 100;
+      let endPoint = 1000;
+
+      // View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+                <label>Interval:
+                    <input
+                        type="number"
+                        value="${forEvery}"
+                        oninput="handleIntervalChange(this.value)"
+                    />
+                </label>
+                <label>Starting Point:
+                    <input
+                        type="number"
+                        value="${startingPoint}"
+                        oninput="updateStartPoint(this.value)"
+                    />
+                </label>
+                <label>End Point:
+                    <input
+                        type="number"
+                        value="${endPoint}"
+                        oninput="updateEndPoint(this.value)"
+                    />
+                </label>
+
+                <div>
+                    <p>
+                        Here's every
+                        <span id="intervalText">${forEvery}${getOrdinalSuffix(forEvery)}</span> number, starting from ${startingPoint} up to ${endPoint}:
+                    </p>
+
+                    <div id="listContainer">
+                        ${makeList(startingPoint, endPoint, forEvery)}
+                    </div>
+                </div>
+        `;
+      }
+
+      // Controller
+      function handleIntervalChange(val) {
+        forEvery = Number(val);
+        const suffix = getOrdinalSuffix(forEvery);
+
+        // Update the text in the prompt dynamically (e.g., "7th", "21st", "1st")
+        document.getElementById("intervalText").innerText =
+          `${forEvery}${suffix}`;
+
+        // Update the list container as well
+        document.getElementById("listContainer").innerHTML = makeList(
+          startingPoint,
+          endPoint,
+          forEvery,
+        );
+      }
+
+      function makeList(start, end, interval) {
+        let listOutput = "";
+
+        // Prevent infinite loop if input is 0 or empty
+        const step = Number(interval) > 0 ? Number(interval) : 1;
+
+        for (let i = Number(start); i <= Number(end); i += step) {
+          listOutput += `<div>${i}</div>`;
+        }
+
+        return listOutput;
+      }
+
+      function updateStartPoint(val) {
+        startingPoint = Number(val);
+
+        // Update the UI
+        document.getElementById("startDisplay").innerText = startingPoint;
+        document.getElementById("listContainer").innerHTML = makeList(
+          startingPoint,
+          endPoint,
+          forEvery,
+        );
+      }
+
+      function updateEndPoint(val) {
+        endPoint = Number(val);
+
+        // Update the UI
+        document.getElementById("endDisplay").innerText = endPoint;
+        document.getElementById("listContainer").innerHTML = makeList(
+          startingPoint,
+          endPoint,
+          forEvery,
+        );
+      }
+
+      function getOrdinalSuffix(number) {
+        const n = Math.abs(Number(number)); // Handle negative numbers and strings
+        const lastTwoDigits = n % 100;
+        const lastDigit = n % 10;
+
+        // The "teens" (11th, 12th, 13th) are special exceptions that always end in 'th'
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+          return "th";
+        }
+
+        switch (lastDigit) {
+          case 1:
+            return "st";
+          case 2:
+            return "nd";
+          case 3:
+            return "rd";
+          default:
+            return "th";
+        }
+      }
+
+      updateView();
+    </script>
+  </body>
 </html>
