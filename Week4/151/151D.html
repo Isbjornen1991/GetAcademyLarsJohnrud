@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgb(119, 124, 124);
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      //Model
+      let word = "";
+      let count = 0;
+      let upperCaseLetters = 0;
+      let lowerCaseLetters = 0;
+
+      // View
+      function updateView() {
+        document.getElementById("app").innerHTML = /*HTML*/ `
+              <label>
+                Input your word:
+                <input
+                  type="text"
+                  value="${word}"
+                  placeholder="Write your word..."
+                  oninput="countAs(this.value)"
+                >
+              </label>
+
+              <p>Count of 'a': <span id="finalCount">${count}</span></p>
+              <p>Count of uppercases: <span id="uppercasesDiv">${upperCaseLetters}</span></p>
+              <p>Count of lowercases: <span id="lowercasesDiv">${lowerCaseLetters}</span></p>
+              `;
+      }
+
+      // Controller
+      function countAs(inputWord) {
+        word = inputWord;
+
+        count = word.split("a").length - 1;
+        upperCaseLetters = (word.match(/[A-ZÆØÅ]/g) || []).length;
+        lowerCaseLetters = (word.match(/[a-zæøå]/g) || []).length;
+
+        document.getElementById("finalCount").innerText = count;
+        document.getElementById("uppercasesDiv").innerText = upperCaseLetters;
+        document.getElementById("lowercasesDiv").innerText = lowerCaseLetters;
+      }
+
+      //Original way I thought to do this, with the for loop, but I never really thought this was the way to do it.
+      //Regular expressions provide a way of doing this, in a way that feels more natural to me, but I don't actually
+      //know how to use them... Yet.
+
+      //   function countAs(inputWord) {
+      //     word = inputWord;
+      //     count = word.split("a").length - 1;
+
+      //     let upperCount = 0;
+      //     let lowerCount = 0;
+
+      //     for (let i = 0; i < word.length; i++) {
+      //       let char = word.charAt(i);
+
+      //       // Check if it's a letter first (ignores spaces, numbers, punctuation)
+      //       if (char.toLowerCase() !== char.toUpperCase()) {
+      //         if (char === char.toUpperCase()) {
+      //           upperCount++;
+      //         } else if (char === char.toLowerCase()) {
+      //           lowerCount++;
+      //         }
+      //       }
+      //     }
+
+      //     upperCaseLetters = upperCount;
+      //     lowerCaseLetters = lowerCount;
+
+      //     updateView();
+      //   }
+
+      updateView();
+    </script>
+  </body>
+</html>

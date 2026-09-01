@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rgb(119, 124, 124);
+        font-size: 20px;
+        font-family: sans-serif;
+      }
+
+      .stats-summary {
+        margin-top: 15px;
+        margin-bottom: 10px;
+      }
+
+      #alphabetCounts {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      let word = "";
+      let upperCaseLetters = 0;
+      let lowerCaseLetters = 0;
+
+      // View - Renders layout structure once
+      function updateView() {
+        document.getElementById("app").innerHTML = /*HTML*/ `
+              <label>
+                Input your text:
+                <input
+                  type="text"
+                  value="${word}"
+                  placeholder="Write your word..."
+                  oninput="analyzeText(this.value)"
+                >
+              </label>
+
+              <div class="stats-summary">
+                <p>Count of uppercases: <span id="uppercasesDiv">${upperCaseLetters}</span></p>
+                <p>Count of lowercases: <span id="lowercasesDiv">${lowerCaseLetters}</span></p>
+              </div>
+
+              <h3>Letter Breakdown:</h3>
+              <div id="alphabetCounts"></div>
+              `;
+      }
+
+      // Controller
+      function analyzeText(inputText) {
+        word = inputText;
+
+        // 1. Calculate general uppercase / lowercase counts
+        upperCaseLetters = (word.match(/[A-ZÆØÅ]/g) || []).length;
+        lowerCaseLetters = (word.match(/[a-zæøå]/g) || []).length;
+
+        // Update summary targets directly
+        document.getElementById("uppercasesDiv").innerText = upperCaseLetters;
+        document.getElementById("lowercasesDiv").innerText = lowerCaseLetters;
+
+        // 2. Calculate A-Z letter breakdown
+        const alphabet = "abcdefghijklmnopqrstuvwxyz";
+        const lowerInput = word.toLowerCase();
+        let outputHTML = "";
+
+        for (let i = 0; i < alphabet.length; i++) {
+          const letter = alphabet[i];
+          const count = lowerInput.split(letter).length - 1;
+
+          if (count > 0) {
+            outputHTML += `<div><strong>${letter.toUpperCase()}:</strong> ${count}</div>`;
+          }
+        }
+
+        // Update the grid target directly
+        document.getElementById("alphabetCounts").innerHTML = outputHTML;
+      }
+
+      updateView();
+    </script>
+  </body>
+</html>
