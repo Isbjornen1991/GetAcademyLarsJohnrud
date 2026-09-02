@@ -92,7 +92,7 @@
       function makeList(start, end, interval) {
         let listOutput = "";
 
-        // Prevent infinite loop if input is 0 or empty
+        // Stop infinite loop if input is 0 or empty
         const step = Number(interval) > 0 ? Number(interval) : 1;
 
         for (let i = Number(start); i <= Number(end); i += step) {
@@ -127,7 +127,7 @@
       }
 
       function getOrdinalSuffix(number) {
-        const n = Math.abs(Number(number)); // Handle negative numbers and strings
+        const n = Math.abs(Number(number)); // Handle negative numbers and strings. I dont really understand this though, it doesnt... track to me.
         const lastTwoDigits = n % 100;
         const lastDigit = n % 10;
 

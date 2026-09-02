@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 56%, 91%, 0.397), #333333);
+        font-size: 20px;
+        font-family: sans-serif;
+      }
+
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: aliceblue;
+        border: 1px dashed black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .gridContainer {
+        display: grid;
+        background-color: aliceblue;
+        padding: 5px;
+        gap: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="grid-container"></div>
+    </div>
+    <script>
+      //Model
+      const app = document.getElementById("app");
+      let gridNumbers = [1, 2, 3, 4, 5, 6, 7, 8, null];
+      let rows = 3;
+      let columns = 3;
+
+      //View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+        <div class="gridContainer" id="Gcontainer"></div>
+          `;
+      }
+
+      updateView();
+
+      //Controller
+      function drawgrid(row, column, container) {
+        container.style.gridTemplateColumns = `repeat(${column}, 100px)`;
+
+        let index = 0;
+
+        for (let i = 0; i < row; i++) {
+          for (let j = 0; j < column; j++) {
+            const newBox = document.createElement("div");
+
+            newBox.classList.add("box");
+
+            newBox.textContent = gridNumbers[index];
+            newBox.addEventListener ('click', () => handleClick(index));
+
+            container.appendChild(newBox);
+
+            index++;
+          }
+        }
+      }
+
+      const gridContainerElement = document.getElementById("Gcontainer");
+
+      drawgrid(rows, columns, gridContainerElement);
+    </script>
+  </body>
+</html>

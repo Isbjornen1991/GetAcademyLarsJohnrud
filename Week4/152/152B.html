@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 56%, 91%, 0.397), #333333);
+        font-size: 20px;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const list1 = [2, 3, 7, 10, 8];
+      let summedNumbers = 0;
+
+      function sumList(list) {
+        for (i = 0; i < list.length; i++) {
+          summedNumbers += list[i];
+        }
+      }
+
+      //This reduce approach is apparently a very good one too. More about it here:
+      //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+      const array = [1, 2, 3, 4];
+
+      const initialValue = 0;
+      const sumWithInitial = array.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        initialValue,
+      );
+
+      //Refactored as a function:
+      //Notice how the 0 at the end is how the initial value gets set. Apparently this is for defensive coding.
+      const myNumbers = [5, 2, 8, 10];
+
+      function sumArray(numbers) {
+        return numbers.reduce(
+          (accumulator, currentValue) => accumulator + currentValue,
+          0,
+        );
+      }
+
+
+
+      sumList(list1);
+
+      console.log(summedNumbers);
+      console.log(sumWithInitial);
+      console.log(sumArray(myNumbers));
+    </script>
+  </body>
+</html>
