@@ -51,17 +51,10 @@
     <div id="app"></div>
 
     <script>
-      // ==========================================
       // MODEL
-      // ==========================================
-      // 9 elements for a 3x3 grid (1-8 and null)
       let gridNumbers = [1, 2, 3, 4, null, 6, 7, 5, 8];
       const rows = 3;
       const columns = 3;
-
-      // ==========================================
-      // HELPER / LOGIC FUNCTIONS
-      // ==========================================
 
       // Checks if two indices in a 3x3 grid are adjacent (up, down, left, right)
       function isNeighbor(index1, index2) {
@@ -93,31 +86,32 @@
         }
       }
 
-      // ==========================================
       // VIEW & CONTROLLER
-      // ==========================================
 
       function updateView() {
         const app = document.getElementById("app");
 
-        // 1. Create the container HTML element inside #app
+        // Create the container HTML element inside #app
         app.innerHTML = /*HTML*/ `
           <div class="gridContainer" id="Gcontainer"></div>
         `;
 
-        // 2. Select the container and populate it with boxes
+        // Select the container and populate it with boxes using drawgrid function
         const gContainer = document.getElementById("Gcontainer");
         drawgrid(rows, columns, gContainer);
       }
 
       function drawgrid(row, column, container) {
         // Set up CSS columns based on column parameter
+        // Originally I did this in the CSS itself, but I guess its better here
+        // for the sake of modularity? Honestly thought thegridbox had some automatically adjusting features, but sure. 
         container.style.gridTemplateColumns = `repeat(${column}, 100px)`;
 
         let index = 0;
 
         for (let i = 0; i < row; i++) {
           for (let j = 0; j < column; j++) {
+            //Interesting how createElement just kind of knows that "div" should be <div> when created
             const newBox = document.createElement("div");
 
             // Capture the current index for this specific box element
@@ -125,6 +119,9 @@
             const tileValue = gridNumbers[currentIndex];
 
             // Render either a numbered box or an empty space
+            // This one has some weird syntax that I need to investigate.
+            // Does it say add the CSS style "box" AND the CSS style "empty-box" to the same thing? If the tilevalue is null that is.
+            // Makes sense I guess. 
             if (tileValue === null) {
               newBox.classList.add("box", "empty-box");
               newBox.textContent = "";
@@ -134,11 +131,13 @@
             }
 
             // Attach click event listener directly to this created element
+            // This kind of launched me into a whole deep dive into arrow functions
+            // But it keeps showing up whenever I get into addEventListener, which is something I somewhat regularly use
             newBox.addEventListener("click", () => {
               handleTileClick(currentIndex);
             });
 
-            // Add the element to the container
+            // Add the element that we just made with the code above, to the container
             container.appendChild(newBox);
 
             index++;

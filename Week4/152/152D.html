@@ -17,8 +17,10 @@
         font-family: sans-serif;
       }
 
-      .outputArea {
-        background-color: aliceblue;
+      .textarea {
+        background-color: rgb(74, 123, 167);
+        border: 2px solid #42414133;
+        border-radius: 4px;
       }
     </style>
   </head>
@@ -44,12 +46,33 @@
       
           <button onclick="textCleaner(inputText)">Press me to operate</button>
 
-          <div class="outputArea"></div>
+            <div class="textarea" id="textArea">
+                <div id="wordArea"></div>
+                <div id="countArea"></div>
+            </div>
         `;
       }
       updateView();
 
       // Controller
+      function textCleaner(input) {
+        let clean = getCleanedText(input);
+        words = clean.split(" ");
+
+        wordCounting(words);
+
+        populateTextArea();
+      }
+
+      //   function textCleaner(input) {
+      //     let clean = getCleanedText(input);
+      //     words = clean.split(" ");
+
+      //     wordCounting(cleanArray);
+
+      //     populateTextArea();
+      //   }
+
       function getCleanedText(rawText) {
         const allowedChars =
           "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ ";
@@ -65,10 +88,41 @@
         return cleanText;
       }
 
-      function textCleaner(input) {
-        let clean = getCleanedText(input);
-        words = clean.split(" ");
-        console.log(words);
+      function wordCounting(cleanArray) {
+        words = [];
+        wordCounts = [];
+
+        for (let i = 0; i < cleanArray.length; i++) {
+          let currentWord = cleanArray[i];
+
+          let index = words.indexOf(currentWord);
+
+          // So first off, this is some archaeic JS stuff:
+          // index !== -1 translated into semi-human speak "Is the index NOT equal to -1?"
+          // If it is NOT -1, it means that the word has already been found at a position inside of the array.
+          // THUS MEANING we can then increase that index value by 1
+          if (index !== -1) {
+            wordCounts[index]++;
+            // However, in the case that it does NOT exist, ie it IS -1,
+            // we then push that current word into words[], which we just
+            // cleaned at the beginning of this function.
+            // We then tell WordCounts[] to push a value of 1
+            // Since we cleaned both arrays, the position of the value and the word will be matching
+          } else {
+            words.push(currentWord);
+            wordCounts.push(1);
+          }
+        }
+      }
+
+      function populateTextArea() {
+        let html = "";
+
+        for (let i = 0; i < words.length; i++) {
+          html += `<div>${words[i]} = ${wordCounts[i]}</div>`;
+        }
+
+        document.getElementById("textArea").innerHTML = html;
       }
     </script>
   </body>
