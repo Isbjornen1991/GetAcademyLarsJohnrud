@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #main--div {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 3px;
+        width: 200px;
+        height: 200px;
+        border: solid 1px;
+      }
+
+      .grid--item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: lightgrey;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+
+      .yellow {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="main--div"></div>
+  </body>
+</html>
+
+<script>
+  let numbers = [1, 2, 5, 7, null, 3, 4, 8, 6];
+
+  function movePiece(userSelectedIndex) {
+    const emptyIndex = numbers.indexOf(null);
+    const potentialMoveToIndexes = [
+      userSelectedIndex + 1,
+      userSelectedIndex - 1,
+      userSelectedIndex + 3,
+      userSelectedIndex - 3,
+    ];
+    // const validMoveToIndexes = potentialMoveToIndexes.filter(isValidIndex);
+    // const validMoveToIndexes = potentialMoveToIndexes.filter(function (index) { return index >= 0 && index <= 8; });
+    // const validMoveToIndexes = potentialMoveToIndexes.filter(index => index >= 0 && index <= 8);
+    removeInvalidIndexes(potentialMoveToIndexes);
+    if (potentialMoveToIndexes.includes(emptyIndex)) {
+      swapValues(emptyIndex, userSelectedIndex);
+    }
+    drawPuzzle();
+  }
+
+  function isValidIndex(index) {
+    return index >= 0 && index <= 8;
+  }
+
+  function swapValues(indexA, indexB) {
+    [numbers[indexA], numbers[indexB]] = [numbers[indexB], numbers[indexA]];
+  }
+
+  /*
+          0  1  2   3   4  5  6  7
+        [ 1, 2, 3, -1, -2, 4, 5, 6];
+        [ 1, 2, 3, -2, 4, 5, 6];
+          
+    */
+
+  function removeInvalidIndexes(indexes) {
+    for (let i = 0; i < indexes.length; i++) {
+      if (indexes[i] < 0 || indexes[i] > 8) {
+        indexes.splice(i, 1);
+      }
+    }
+  }
+
+  function removeInvalidIndexesB(indexes) {
+    for (let i = indexes.length - 1; i >= 0; i--) {
+      if (indexes[i] < 0 || indexes[i] > 8) {
+        indexes.splice(i, 1);
+      }
+    }
+  }
+
+  function removeInvalidIndexesC(indexes) {
+    let i = 0;
+    while (i < indexes.length) {
+      if (indexes[i] < 0 || indexes[i] > 8) {
+        indexes.splice(i, 1);
+      } else {
+        i++;
+      }
+    }
+  }
+
+  function removeInvalidIndexesA(indexes) {
+    let validIndexes = [];
+    for (let i = 0; i < indexes.length; i++) {
+      const index = indexes[i];
+      if (index >= 0 && index <= 8) {
+        validIndexes.push(index);
+      }
+    }
+    return validIndexes;
+  }
+
+  function drawPuzzle() {
+    document.getElementById("main--div").innerHTML = "";
+    for (let i = 0; i < numbers.length; i++) {
+      document.getElementById("main--div").innerHTML +=
+        `<div class="grid--item" id="square${[i]}" onclick="movePiece(${i})">${numbers[i] ?? " "}</div>`;
+    }
+  }
+  drawPuzzle();
+
+  function gameEnd() {
+    let square1 = document.getElementById("square0").innerHTML;
+    let square2 = document.getElementById("square1").innerHTML;
+    let square3 = document.getElementById("square2").innerHTML;
+    let square4 = document.getElementById("square3").innerHTML;
+    let square5 = document.getElementById("square4").innerHTML;
+    let square6 = document.getElementById("square5").innerHTML;
+    let square7 = document.getElementById("square6").innerHTML;
+    let square8 = document.getElementById("square7").innerHTML;
+    let square0 = document.getElementById("square8").innerHTML;
+    if (
+      square1 == 1 &&
+      square2 == 2 &&
+      square3 == 3 &&
+      square4 == 4 &&
+      square5 == 5 &&
+      square6 == 6 &&
+      square7 == 7 &&
+      square8 == 8 &&
+      square0 == ""
+    ) {
+      console.log("You won");
+    }
+  }
+</script>

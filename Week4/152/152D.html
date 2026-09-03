@@ -1,11 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 2%, 33%, 0.411), #333333);
+        font-size: 24px;
+        font-weight: bold;
+        font-family: sans-serif;
+      }
+
+      .outputArea {
+        background-color: aliceblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      // Model
+      const app = document.getElementById("app");
+      let inputText = "";
+      let words = [];
+      let wordCounts = [];
+
+      // View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+          <input
+            type="text"
+            value="${inputText}"
+            placeholder="Paste your text here..."
+            oninput="inputText = this.value"
+          >
+      
+          <button onclick="textCleaner(inputText)">Press me to operate</button>
+
+          <div class="outputArea"></div>
+        `;
+      }
+      updateView();
+
+      // Controller
+      function getCleanedText(rawText) {
+        const allowedChars =
+          "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ ";
+        let cleanText = "";
+
+        for (let i = 0; i < rawText.length; i++) {
+          let char = rawText[i];
+          if (allowedChars.includes(char)) {
+            cleanText += char;
+          }
+        }
+
+        return cleanText;
+      }
+
+      function textCleaner(input) {
+        let clean = getCleanedText(input);
+        words = clean.split(" ");
+        console.log(words);
+      }
+    </script>
+  </body>
 </html>
