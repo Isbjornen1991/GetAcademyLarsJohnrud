@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>3x3 Sliding Puzzle</title>
 
     <style>
       body {
@@ -13,50 +13,105 @@
         align-items: center;
         min-height: 100vh;
         background: radial-gradient(hsla(60, 56%, 91%, 0.397), #333333);
-        font-size: 20px;
+        font-size: 24px;
+        font-weight: bold;
         font-family: sans-serif;
+      }
+
+      .gridContainer {
+        display: grid;
+        gap: 6px;
+        background-color: #222;
+        padding: 8px;
+        border-radius: 8px;
       }
 
       .box {
         width: 100px;
         height: 100px;
         background-color: aliceblue;
-        border: 1px dashed black;
+        border: 2px solid #ccc;
+        border-radius: 4px;
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
+        user-select: none;
       }
 
-      .gridContainer {
-        display: grid;
-        background-color: aliceblue;
-        padding: 5px;
-        gap: 5px;
+      /* Style for the empty space */
+      .empty-box {
+        background-color: transparent;
+        border: 2px dashed #666;
+        cursor: default;
       }
     </style>
   </head>
   <body>
-    <div id="app">
-      <div id="grid-container"></div>
-    </div>
-    <script>
-      //Model
-      const app = document.getElementById("app");
-      let gridNumbers = [1, 2, 3, 4, 5, 6, 7, 8, null];
-      let rows = 3;
-      let columns = 3;
+    <div id="app"></div>
 
-      //View
-      function updateView() {
-        app.innerHTML = /*HTML*/ `
-        <div class="gridContainer" id="Gcontainer"></div>
-          `;
+    <script>
+      // ==========================================
+      // MODEL
+      // ==========================================
+      // 9 elements for a 3x3 grid (1-8 and null)
+      let gridNumbers = [1, 2, 3, 4, null, 6, 7, 5, 8];
+      const rows = 3;
+      const columns = 3;
+
+      // ==========================================
+      // HELPER / LOGIC FUNCTIONS
+      // ==========================================
+
+      // Checks if two indices in a 3x3 grid are adjacent (up, down, left, right)
+      function isNeighbor(index1, index2) {
+        const row1 = Math.floor(index1 / columns);
+        const col1 = index1 % columns;
+
+        const row2 = Math.floor(index2 / columns);
+        const col2 = index2 % columns;
+
+        const isHorizontal = row1 === row2 && Math.abs(col1 - col2) === 1;
+        const isVertical = col1 === col2 && Math.abs(row1 - row2) === 1;
+
+        return isHorizontal || isVertical;
       }
 
-      updateView();
+      // Handles the click on any tile
+      function handleTileClick(clickedIndex) {
+        // Find where the 'null' (blank) tile currently is in our model array
+        const nullIndex = gridNumbers.indexOf(null);
 
-      //Controller
+        // Check if the clicked tile can legally move into the blank space
+        if (isNeighbor(clickedIndex, nullIndex)) {
+          // Swap the clicked number with null in the array model
+          gridNumbers[nullIndex] = gridNumbers[clickedIndex];
+          gridNumbers[clickedIndex] = null;
+
+          // Redraw the view to display the updated model array!
+          updateView();
+        }
+      }
+
+      // ==========================================
+      // VIEW & CONTROLLER
+      // ==========================================
+
+      function updateView() {
+        const app = document.getElementById("app");
+
+        // 1. Create the container HTML element inside #app
+        app.innerHTML = /*HTML*/ `
+          <div class="gridContainer" id="Gcontainer"></div>
+        `;
+
+        // 2. Select the container and populate it with boxes
+        const gContainer = document.getElementById("Gcontainer");
+        drawgrid(rows, columns, gContainer);
+      }
+
       function drawgrid(row, column, container) {
+        // Set up CSS columns based on column parameter
         container.style.gridTemplateColumns = `repeat(${column}, 100px)`;
 
         let index = 0;
@@ -65,11 +120,25 @@
           for (let j = 0; j < column; j++) {
             const newBox = document.createElement("div");
 
-            newBox.classList.add("box");
+            // Capture the current index for this specific box element
+            const currentIndex = index;
+            const tileValue = gridNumbers[currentIndex];
 
-            newBox.textContent = gridNumbers[index];
-            newBox.addEventListener ('click', () => handleClick(index));
+            // Render either a numbered box or an empty space
+            if (tileValue === null) {
+              newBox.classList.add("box", "empty-box");
+              newBox.textContent = "";
+            } else {
+              newBox.classList.add("box");
+              newBox.textContent = tileValue;
+            }
 
+            // Attach click event listener directly to this created element
+            newBox.addEventListener("click", () => {
+              handleTileClick(currentIndex);
+            });
+
+            // Add the element to the container
             container.appendChild(newBox);
 
             index++;
@@ -77,9 +146,8 @@
         }
       }
 
-      const gridContainerElement = document.getElementById("Gcontainer");
-
-      drawgrid(rows, columns, gridContainerElement);
+      // Initial run
+      updateView();
     </script>
   </body>
 </html>
