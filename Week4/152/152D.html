@@ -33,6 +33,8 @@
       let inputText = "";
       let words = [];
       let wordCounts = [];
+      const loremText =
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
       // View
       function updateView() {
@@ -45,6 +47,7 @@
           >
       
           <button onclick="textCleaner(inputText)">Press me to operate</button>
+          <button onclick="fillLoremText()">Fill Lorem Ipsum</button>
 
             <div class="textarea" id="textArea">
                 <div id="wordArea"></div>
@@ -123,6 +126,11 @@
         }
 
         document.getElementById("textArea").innerHTML = html;
+      }
+
+      function fillLoremText() {
+        inputText = loremText;
+        updateView();
       }
     </script>
   </body>
