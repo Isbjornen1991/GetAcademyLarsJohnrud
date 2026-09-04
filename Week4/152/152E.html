@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 2%, 33%, 0.411), #333333);
+        font-size: 24px;
+        font-weight: bold;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      //Model
+      let app = document.getElementById("app");
+
+      const list1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const list2 = [7, 5, 2, 3, 1, 0, 8, 9, 4, 6];
+
+      //View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+
+        
+        
+        `;
+      }
+
+      // Here I learned that we can do index + 1. My original thought was that
+      // we needed temporary variables and what not. This is much simpler.
+
+      function isListSorted(inputList) {
+        for (let i = 0; i < inputList.length -1; i++) {
+          if (inputList[i] > inputList[i + 1]) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      //Controller
+    </script>
+  </body>
+</html>
