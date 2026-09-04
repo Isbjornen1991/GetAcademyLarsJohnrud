@@ -73,6 +73,9 @@
 
         // Recalculate totalPages based on filtered list length
         // I.e 4.2 becomes 5, 3.2 becomes 4 etc
+        // This is useful so we don't end up with half pages etc
+        // Although it seems to work without it display wise,
+        // but the model might not be too happy
         totalPages = Math.ceil(listToDisplay.length / pageSize);
 
         let startIndex = currentPage * pageSize;
