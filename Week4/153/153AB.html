@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 2%, 33%, 0.411), #333333);
+        font-size: 24px;
+        font-weight: bold;
+        font-family: sans-serif;
+      }
+
+      .number-list {
+        min-width: 600px;
+        text-align: center;
+        background-color: aliceblue;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0px 0px 2px 2px;
+      }
+
+      .buttonHolder {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 15px;
+        max-width: 1000px;
+      }
+
+      #buttons {
+        display: flex;
+        gap: 15px;
+      }
+
+      button {
+        font-size: 18px;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      // Model
+      let app = document.getElementById("app");
+
+      const myArray = Array.from({ length: 130 }, (v, i) => i + 1);
+
+      const pageSize = 10;
+      let currentPage = 0;
+      let filterMode = "all"; // "all", "even", "odd"
+
+      // Originaly I just set this to a formula where
+      // the length of the array was divided by page size
+      // Now it lives inside updateView due to the filters
+      let totalPages = 0;
+
+      // View
+      function updateView() {
+        let listToDisplay = getFilteredArray();
+
+        // Recalculate totalPages based on filtered list length
+        // I.e 4.2 becomes 5, 3.2 becomes 4 etc
+        totalPages = Math.ceil(listToDisplay.length / pageSize);
+
+        let startIndex = currentPage * pageSize;
+        let endIndex = startIndex + pageSize;
+
+        let currentItems = listToDisplay.slice(startIndex, endIndex);
+
+        app.innerHTML = /*HTML*/ `
+            <div class="number-list">
+                  ${currentItems.join(", ")}
+            </div>
+
+            <div class="buttonHolder">
+                <div id="buttons">
+                    <button onclick="prevPage()">Previous Page</button>
+                    <button onclick="nextPage()">Next Page</button>
+                </div>
+            </div>
+            <div class="buttonHolder">${createPageButtons(totalPages)}</div>
+            <div class="buttonHolder">
+                <button onclick="setFilter('all')">Show All</button>
+                <button onclick="setFilter('even')">Show Evens</button>
+                <button onclick="setFilter('odd')">Show Odds</button>
+            </div>
+        `;
+      }
+
+      // Controller
+      function getFilteredArray() {
+        if (filterMode === "even") {
+          return myArray.filter((num) => num % 2 === 0);
+        } else if (filterMode === "odd") {
+          return myArray.filter((num) => num % 2 !== 0);
+        } else {
+          return myArray;
+        }
+      }
+
+      function setFilter(mode) {
+        filterMode = mode;
+        // Reset to page 1 whenever filter changes
+        // Without this we just get an empty display.
+        // Probably possible to fix, but... yeah.
+        currentPage = 0;
+        updateView();
+      }
+
+      function changePage(pageNumber) {
+        currentPage = pageNumber;
+        updateView();
+      }
+
+      function nextPage() {
+        if (currentPage < totalPages - 1) {
+          currentPage++;
+          updateView();
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 0) {
+          currentPage--;
+          updateView();
+        }
+      }
+
+      function createPageButtons(pageCount) {
+        let buttonsHtml = "";
+
+        for (let i = 0; i < pageCount; i++) {
+          buttonsHtml += `<button onclick="changePage(${i})">${i + 1}</button>`;
+        }
+        return buttonsHtml;
+      }
+
+      updateView();
+    </script>
+  </body>
+</html>
