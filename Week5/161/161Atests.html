@@ -1,0 +1,41 @@
+!DOCTYPE html>
+<html>
+  <meta charset="utf-8" />
+  <title>QUnit</title>
+  <link
+    rel="stylesheet"
+    href="https://code.jquery.com/qunit/qunit-2.26.0.css"
+  />
+  <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.26.0.js"></script>
+    <script src="161Ascripts.js"></script>
+
+    <script>
+      QUnit.test("fix - 'terje'", function (assert) {
+        const actual = fixText("terje");
+        const expected = "Terje";
+        assert.equal(actual, expected);
+      });
+
+      QUnit.test("fix - 'terje '", function (assert) {
+        const actual = fixText("terje ");
+        const expected = "Terje";
+        assert.equal(actual, expected);
+      });
+
+      QUnit.test("fix - ' terje'", function (assert) {
+        const actual = fixText(" terje");
+        const expected = "Terje";
+        assert.equal(actual, expected);
+      });
+
+      QUnit.test("fix - ' terje '", function (assert) {
+        const actual = fixText(" terje ");
+        const expected = "Terje";
+        assert.equal(actual, expected);
+      });
+    </script>
+  </body>
+</html>

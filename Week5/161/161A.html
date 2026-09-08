@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 2%, 33%, 0.411), #333333);
+        font-size: 24px;
+        font-weight: bold;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="161Ascripts.js"></script>
+    <div id="app"></div>
+
+    <script>
+      //Model
+      let app = document.getElementById("app");
+
+      let inputContent = "";
+
+      //View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+        <input
+            type="text"
+            placeholder="Enter your text..."
+            value="${inputContent.toString}"
+        >
+        `;
+      }
+
+      updateView();
+      //Controller
+    </script>
+  </body>
+</html>
