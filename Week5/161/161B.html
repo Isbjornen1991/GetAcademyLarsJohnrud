@@ -20,31 +20,13 @@
     </style>
   </head>
   <body>
+    <script src="161Bscripts.js"></script>
     <div id="app"></div>
 
     <script>
-      //Model
       let app = document.getElementById("app");
-
-      //View
-      function updateView() {
-        app.innerHTML = /*HTML*/ `
-
-      <label for="email">Enter your example.com email:</label>
-
-      <input
-        type="email"
-        id="email"
-        pattern=".+@example\.com"
-        size="30"
-        required
-      />
-        `;
-      }
-
+      
       updateView();
-
-      //Controller
     </script>
   </body>
 </html>

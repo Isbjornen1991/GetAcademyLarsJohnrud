@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(hsla(60, 56%, 91%, 0.397), #333333);
+        font-size: 20px;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      //Model
+      let app = document.getElementById("app");
+
+      let points = 0;
+      let increaseBy = 1;
+
+      //View
+      function updateView() {
+        app.innerHTML = /*HTML*/ `
+        <div>${points}</div>
+        <button onclick="addPoints()">Click me</button>
+        <button onclick="minusPoints()">Minus points</button>
+        <button onclick="upgradeButton()">Upgrade</button>
+        `;
+      }
+
+      updateView();
+      //Controller
+
+      function addPoints() {
+        points = points + increaseBy;
+        updateView();
+      }
+      function minusPoints() {
+        if (points > 0) {
+          points--;
+          updateView();
+        }
+      }
+      function upgradeButton() {
+        if (points >= 10) {
+          increaseBy++;
+          points = points - 10;
+          updateView();
+        }
+      }
+    </script>
+  </body>
+</html>
