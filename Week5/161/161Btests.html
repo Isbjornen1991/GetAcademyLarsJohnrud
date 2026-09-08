@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!doctype html>
 <html>
   <meta charset="utf-8" />
   <title>QUnit</title>
@@ -11,7 +11,7 @@
     <div id="qunit-fixture"></div>
     <script src="https://code.jquery.com/qunit/qunit-2.26.0.js"></script>
     <script src="161Bscripts.js"></script>
-
+    <div id="output"></div>
     <script>
       QUnit.test(
         "testEmail should return true when text contains @",
@@ -42,6 +42,25 @@
             false,
             "Should return false for plain text without @",
           );
+        },
+      );
+
+      QUnit.test(
+        "checkForPeriod should return true when periods are present before and after @",
+        function (assert) {
+          assert.equal(checkForPeriod("lars.johnsrud@hotmail.com"), true);
+        },
+      );
+
+      QUnit.test(
+        "checkForPeriod should return false when text lacks periods before and after @",
+        function (assert) {
+          assert.equal(
+            checkForPeriod("doesnotcontainperiod@hotmailcom"),
+            false,
+          );
+          assert.equal(checkForPeriod("onlyhasperiodhere.@hotmailcom"), false);
+          assert.equal(checkForPeriod("onlyperiodafter@hotmail.com"), false);
         },
       );
     </script>
