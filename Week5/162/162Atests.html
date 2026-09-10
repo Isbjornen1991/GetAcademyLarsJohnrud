@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <title>QUnit</title>
+  <link
+    rel="stylesheet"
+    href="https://code.jquery.com/qunit/qunit-2.26.0.css"
+  />
+  <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.26.0.js"></script>
+    <script src="162A.js"></script>
+
+    <script>
+      // Function to prevent crash
+      function updateView() {}
+
+      // The function I want to test:
+
+      //   function selectBar(barNo) {
+      //     if (chosenBar === barNo) {
+      //       chosenBar = undefined; // Deselect if clicking the same bar again
+      //     } else {
+      //       chosenBar = barNo; // Select the clicked bar
+      //     }
+      //     updateView(); // Re-render the view to show changes
+      //   }
+
+      //The Test
+      QUnit.test(
+        "If chosenbar is already chosen, does it become deselected?",
+        function (assert) {
+          chosenBar = 1;
+          selectBar(1);
+
+          assert.equal(chosenBar, undefined);
+        },
+      );
+
+      QUnit.test(
+        "if chosenbar is undefined ie not chosen, does it become selected?",
+        function (assert) {
+          chosenBar = undefined;
+          selectBar(2);
+
+          assert.equal(chosenBar, 2);
+        },
+      );
+
+      //The function I want to test:
+
+      //   function removeBar() {
+      //     if (chosenBar == null) return;
+      //     let indexToRemove = chosenBar - 1;
+      //     numbers.splice(indexToRemove, 1);
+      //     chosenBar = undefined;
+      //     updateView();
+      //   }
+
+      //The Test
+
+      QUnit.test();
+
+      // Examples of tests:
+
+      //   QUnit.test("fix - 'terje'", function (assert) {
+      //     const actual = fixText("terje");
+      //     const expected = "Terje";
+      //     assert.equal(actual, expected);
+      //   });
+
+      //   QUnit.test(
+      //     "testEmail should return true when text contains @",
+      //     function (assert) {
+      //       assert.equal(
+      //         betterTestEmail("ola@example.com"),
+      //         true,
+      //         "Should return true for valid email format",
+      //       );
+      //       assert.equal(
+      //         betterTestEmail("user@domain"),
+      //         true,
+      //         "Should return true whenever @ is present",
+      //       );
+      //     },
+      //   );
+    </script>
+  </body>
+</html>

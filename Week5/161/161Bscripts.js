@@ -50,6 +50,7 @@ function checkForPeriod(textInput) {
   const splitArray = textInput.split("@");
   console.log(splitArray[0]);
 
+  //Her bruker vi Optional Chaining ?. Operator
   if (splitArray[0]?.includes(".") && splitArray[1]?.includes(".")) {
     console.log(true);
     return true;
