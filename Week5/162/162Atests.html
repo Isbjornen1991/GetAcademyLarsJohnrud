@@ -15,6 +15,18 @@
     <script>
       // Function to prevent crash
       function updateView() {}
+      // Prevent pop up window
+      window.alert = function () {};
+
+      // // model
+      // let numbers = [7, 3, 1, 5, 8];
+      // let chosenBar; // Variabel for hvilken stolpe som er valgt
+      // let inputValue; // Variabel for hva som er skrevet i input-feltet
+
+      // How to test:
+      // 1. Arrange - Set model values to test values
+      // 2. Act - Run the function
+      // 3. Assert - Did the function output the expected values?
 
       // The function I want to test:
 
@@ -60,8 +72,148 @@
 
       //The Test
 
-      QUnit.test();
+      QUnit.test(
+        "Does a bar get removed? Does selection also clear?",
+        function (assert) {
+          numbers = [7, 3, 1];
+          chosenBar = 2;
+          removeBar();
 
+          console.log(numbers);
+
+          assert.deepEqual(numbers, [7, 1]);
+          assert.equal(chosenBar, undefined);
+        },
+      );
+
+      QUnit.test(
+        "If chosenBar is null, does function still remove anything?",
+        function (assert) {
+          //Arrange
+          numbers = [2, 6, 3];
+          chosenBar = null;
+          //Act
+          removeBar();
+          //Assert
+          assert.deepEqual(numbers, [2, 6, 3]);
+        },
+      );
+
+      // The function I want to test:
+
+      // function addBar() {
+      //   let val = Number(inputValue);
+
+      //   // Validate: must be a number between 1 and 10
+      //   if (isNaN(val) || val < 1 || val > 10) {
+      //     alert("Ugyldig verdi! Skriv inn et tall mellom 1 og 10.");
+      //     return;
+      //   }
+
+      //   // Add the new number to the end of the array
+      //   numbers.push(val);
+
+      //   updateView();
+      // }
+
+      // The Test
+
+      QUnit.test("If value is valid, does bar get added?", function (assert) {
+        //Arrange
+        numbers = [7, 3, 1, 5, 8];
+        inputValue = 5;
+        //Act
+        addBar();
+        //Assert
+        assert.deepEqual(numbers, [7, 3, 1, 5, 8, 5]);
+      });
+
+      QUnit.test(
+        "if value is invalid type data, does addBar() stop?",
+        function (assert) {
+          //Arrange
+          numbers = [7, 3, 1, 5, 8];
+          inputValue = "pebcak";
+          //Act
+          addBar();
+          //Assert
+          assert.deepEqual(numbers, [7, 3, 1, 5, 8]);
+        },
+      );
+
+      QUnit.test(
+        "If value is out of range, does addBar() stop?",
+        function (assert) {
+          //Arrange
+          numbers = [7, 3, 1, 5, 8];
+          inputValue = "87";
+          //Act
+          addBar();
+          //Assert
+          assert.deepEqual(numbers, [7, 3, 1, 5, 8]);
+        },
+      );
+
+      // The function I want to test:
+      // function changeBar() {
+      //   if (chosenBar == null) return;
+
+      //   let val = Number(inputValue);
+
+      //   // Validate: must be a number between 1 and 10
+      //   if (isNaN(val) || val < 1 || val > 10) {
+      //     alert("Ugyldig verdi! Skriv inn et tall mellom 1 og 10.");
+      //     return;
+      //   }
+
+      //   // Update the array value for the selected bar
+      //   numbers[chosenBar - 1] = val;
+
+      //   updateView();
+      // }
+
+      //The test
+      QUnit.test(
+        "If input value is valid, & valid bar is chosen does bar get changed?",
+        function (assert) {
+          //Arrange
+          inputValue = 5;
+          numbers = [7, 3, 1, 5, 8];
+          chosenBar = 2;
+          //Act
+          changeBar();
+          //Assert
+          assert.deepEqual(numbers, [7, 5, 1, 5, 8]);
+        },
+      );
+
+      QUnit.test(
+        "If input value is valid, & invalid bar is chosen does bar get changed?",
+        function (assert) {
+          //Arrange
+          inputValue = 5;
+          numbers = [7, 3, 1, 5, 8];
+          chosenBar = null;
+          //Act
+          changeBar();
+          //Assert
+          assert.deepEqual(numbers, [7, 3, 1, 5, 8]);
+        },
+      );
+
+      QUnit.test(
+        "If input value is invalid, & valid bar is chosen does bar get changed?",
+        function (assert) {
+          //Arrange
+          inputValue = 15;
+          numbers = [7, 3, 1, 5, 8];
+          chosenBar = 2;
+          //Act
+          changeBar();
+          //Assert
+          assert.deepEqual(numbers, [7, 3, 1, 5, 8]);
+        },
+      );
       // Examples of tests:
 
       //   QUnit.test("fix - 'terje'", function (assert) {
