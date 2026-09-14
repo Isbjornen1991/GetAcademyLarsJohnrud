@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .colorDiv {
+        border: 4px;
+        border-style: solid;
+
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      //Model
+      const app = document.getElementById("app");
+      //This one is just as a default template, so its easier for me to remember whats happening here
+      let currentColor = { red: 100, green: 100, blue: 100 };
+
+      //Some basic starting value so that theres something here
+      let colorList = [
+        { red: 100, green: 200, blue: 50 },
+        { red: 255, green: 60, blue: 120 },
+      ];
+
+      //View
+      function createDivHtml(colorObject) {
+        //Set the color inline, rather than in style style tag. I need to get better at inline and thinking of it as a valid option.
+        return `<div class="colorDiv" style="background-color: rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue});"></div>`;
+      }
+
+      function updateView() {
+        //.map() creates a new array of HTML strings, created by createDivHtml
+        //.join() returns an array as a string. It doesnt change the OG array (good).
+        //.join() has a default output of , as a separator, which means we need to use "" to separate HTML strings here
+        // In this case, we use .join to return the array built by .map, allowing us to build the display based on the model
+        // These are built in array methods I should get more used to using.
+        let divsHtml = colorList.map((color) => createDivHtml(color)).join("");
+
+        app.innerHTML = /*HTML*/ `
+            
+            <div>
+                <button onclick="addRandomDiv()">Add Random Color</button>
+            </div>
+            <hr />
+            <div id="container">
+                ${divsHtml}
+            </div>
+        
+        `;
+      }
+
+      //Controller
+      function addDiv(colorObject) {
+        colorList.push(colorObject);
+        updateView();
+      }
+
+      //I wanted something that would allow the user to input values. Had to get Gemini to give me an idea on how to do that in a simple way.
+      function addRandomDiv() {
+        let randomColor = {
+          red: Math.floor(Math.random() * 256),
+          green: Math.floor(Math.random() * 256),
+          blue: Math.floor(Math.random() * 256),
+        };
+        addDiv(randomColor);
+      }
+
+      //Init page
+      updateView();
+    </script>
+  </body>
+</html>

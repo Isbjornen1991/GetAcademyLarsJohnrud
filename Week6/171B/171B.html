@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .colorDiv {
+        border: 4px;
+        border-style: solid;
+
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+      }
+
+      #container {
+        display: grid;
+        /* Automatically fill rows based on available screen space */
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 5px;
+        padding: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      //Model
+      const app = document.getElementById("app");
+      //This one is just as a default template, so its easier for me to remember whats happening here
+      let currentColor = { red: 100, green: 100, blue: 100 };
+      let selectedIndex = null;
+
+      //Some basic starting value so that theres something here
+      let colorList = [
+        { red: 255, green: 0, blue: 0 },
+        { red: 0, green: 255, blue: 0 },
+        { red: 0, green: 0, blue: 255 },
+        { red: 0, green: 0, blue: 0 },
+        { red: 255, green: 255, blue: 255 },
+      ];
+
+      //View
+      function createDivHtml(colorObject, index) {
+        // Highlight if this square is selected as the first color
+        let isSelected = index === selectedIndex;
+        let borderStyle = isSelected ? "4px solid gold" : "4px solid black";
+
+        return `
+                <div 
+                class="colorDiv" 
+                onclick="handleSquareClick(${index})" 
+                style="background-color: rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue}); border: ${borderStyle};">
+                </div>
+              `;
+      }
+
+      function updateView() {
+        //.map() creates a new array of HTML strings, created by createDivHtml
+        //.join() returns an array as a string. It doesnt change the OG array (good).
+        //.join() has a default output of , as a separator, which means we need to use "" to separate HTML strings here
+        // In this case, we use .join to return the array built by .map, allowing us to build the display based on the model
+        // These are built in array methods I should get more used to using.
+        let divsHtml = colorList
+          .map((color, index) => createDivHtml(color, index))
+          .join("");
+
+        app.innerHTML = /*HTML*/ `
+            
+            <div>
+                <button onclick="addRandomDiv()">Add Random Color</button>
+            </div>
+            <hr />
+            <div id="container">
+                ${divsHtml}
+            </div>
+        
+        `;
+      }
+
+      //Controller
+      function addDiv(colorObject) {
+        colorList.push(colorObject);
+        updateView();
+      }
+
+      //I wanted something that would allow the user to input values. Had to get Gemini to give me an idea on how to do that in a simple way.
+      function addRandomDiv() {
+        let randomColor = {
+          red: Math.floor(Math.random() * 256),
+          green: Math.floor(Math.random() * 256),
+          blue: Math.floor(Math.random() * 256),
+        };
+        addDiv(randomColor);
+      }
+
+      function populateGrid() {
+        for (let i = 0; i < 82; i++) {
+          addRandomDiv();
+        }
+      }
+
+      populateGrid();
+
+      //The assignment wants an object as an input, but that wont work with this setup.
+      //See the commented out function further down to see how that would look.
+      function invertColor(index) {
+        let targetColor = colorList[index];
+
+        // Calculate inverted values
+        // Notice how the properties of the object are reached
+        colorList[index] = {
+          red: 255 - targetColor.red,
+          green: 255 - targetColor.green,
+          blue: 255 - targetColor.blue,
+        };
+
+        updateView();
+      }
+
+      function handleSquareClick(index) {
+        // If no square is selected yet, make this the first selection
+        if (selectedIndex === null) {
+          selectedIndex = index;
+          updateView();
+          return;
+        }
+
+        // If we click the same square again, we do this
+        if (selectedIndex === index) {
+          invertColor(index);
+          selectedIndex = null;
+          updateView();
+          return;
+        }
+
+        // If a different square is selected, we do this instead (blend them)
+        let color1 = colorList[selectedIndex];
+        let color2 = colorList[index];
+
+        let blendedColor = {
+          red: Math.round((color1.red + color2.red) / 2),
+          green: Math.round((color1.green + color2.green) / 2),
+          blue: Math.round((color1.blue + color2.blue) / 2),
+        };
+
+        // Add the new blended color to our list
+        colorList.push(blendedColor);
+
+        // Reset selection, so its less sticky and yucky
+        selectedIndex = null;
+
+        updateView();
+      }
+
+      //
+      //   function invertColor(colorObject) {
+
+      // Set basline so we can just subtract the current value from 255
+      //     let invertedColorObject = { red: 255, green: 255, blue: 255 };
+
+      // Perform the inversion
+      //     invertedColorObject.red = invertedColorObject.red - colorObject.red;
+      //     invertedColorObject.green = invertedColorObject.green - colorObject.green;
+      //     invertedColorObject.blue = invertedColorObject.blue - colorObject.blue;
+
+      // return the inverted object
+      //     return invertedColorObject;
+      //   }
+
+      //Init page
+      updateView();
+    </script>
+  </body>
+</html>
