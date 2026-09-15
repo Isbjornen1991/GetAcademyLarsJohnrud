@@ -15,7 +15,7 @@
         margin: 5px;
       }
 
-      #container {
+      #container, #gradient-container {
         display: grid;
         /* Automatically fill rows based on available screen space */
         grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
@@ -28,13 +28,11 @@
     <div id="app"></div>
 
     <script>
-      //Model
+      // --- Model ---
       const app = document.getElementById("app");
-      //This one is just as a default template, so its easier for me to remember whats happening here
       let currentColor = { red: 100, green: 100, blue: 100 };
       let selectedIndex = null;
 
-      //Some basic starting value so that theres something here
       let colorList = [
         { red: 255, green: 0, blue: 0 },
         { red: 0, green: 255, blue: 0 },
@@ -43,51 +41,64 @@
         { red: 255, green: 255, blue: 255 },
       ];
 
-      //View
+      let gradientList = [];
+
+      // --- View ---
       function createDivHtml(colorObject, index) {
-        // Highlight if this square is selected as the first color
         let isSelected = index === selectedIndex;
         let borderStyle = isSelected ? "4px solid gold" : "4px solid black";
 
         return `
-                <div 
-                class="colorDiv" 
-                onclick="handleSquareClick(${index})" 
-                style="background-color: rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue}); border: ${borderStyle};">
-                </div>
-              `;
+          <div 
+            class="colorDiv" 
+            onclick="handleSquareClick(${index})" 
+            style="background-color: rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue}); border: ${borderStyle};">
+          </div>
+        `;
+      }
+
+      function createGradientDivHtml(gradientCss) {
+        return `
+          <div 
+            class="colorDiv" 
+            style="background: ${gradientCss}; width: 50px; height: 50px;">
+          </div>
+        `;
       }
 
       function updateView() {
-        //.map() creates a new array of HTML strings, created by createDivHtml
-        //.join() returns an array as a string. It doesnt change the OG array (good).
-        //.join() has a default output of , as a separator, which means we need to use "" to separate HTML strings here
-        // In this case, we use .join to return the array built by .map, allowing us to build the display based on the model
-        // These are built in array methods I should get more used to using.
         let divsHtml = colorList
           .map((color, index) => createDivHtml(color, index))
           .join("");
 
+        let gradientsHtml = gradientList
+          .map((g) => createGradientDivHtml(g))
+          .join("");
+
         app.innerHTML = /*HTML*/ `
-            
-            <div>
-                <button onclick="addRandomDiv()">Add Random Color</button>
-            </div>
-            <hr />
-            <div id="container">
-                ${divsHtml}
-            </div>
-        
+          <div>
+            <button onclick="addRandomDiv()">Add Random Color</button>
+            <button onclick="handleCreateGradientClick()">Create Gradient</button>
+          </div>
+          <hr />
+          <h3>Solid Colors</h3>
+          <div id="container">
+            ${divsHtml}
+          </div>
+          <hr />
+          <h3>Gradients</h3>
+          <div id="gradient-container">
+            ${gradientsHtml}
+          </div>
         `;
       }
 
-      //Controller
+      // --- Controller ---
       function addDiv(colorObject) {
         colorList.push(colorObject);
         updateView();
       }
 
-      //I wanted something that would allow the user to input values. Had to get Gemini to give me an idea on how to do that in a simple way.
       function addRandomDiv() {
         let randomColor = {
           red: Math.floor(Math.random() * 256),
@@ -103,76 +114,86 @@
         }
       }
 
-      populateGrid();
-
-      //The assignment wants an object as an input, but that wont work with this setup.
-      //See the commented out function further down to see how that would look.
-      function invertColor(index) {
-        let targetColor = colorList[index];
-
-        // Calculate inverted values
-        // Notice how the properties of the object are reached
-        colorList[index] = {
-          red: 255 - targetColor.red,
-          green: 255 - targetColor.green,
-          blue: 255 - targetColor.blue,
+      // Takes an object, returns a NEW inverted object
+      function invertColor(colorObject) {
+        return {
+          red: 255 - colorObject.red,
+          green: 255 - colorObject.green,
+          blue: 255 - colorObject.blue,
         };
+      }
 
-        updateView();
+      function blendTwoColors(c1, c2) {
+        return {
+          red: Math.round((c1.red + c2.red) / 2),
+          green: Math.round((c1.green + c2.green) / 2),
+          blue: Math.round((c1.blue + c2.blue) / 2),
+        };
       }
 
       function handleSquareClick(index) {
-        // If no square is selected yet, make this the first selection
+        // First click: select the square
         if (selectedIndex === null) {
           selectedIndex = index;
           updateView();
           return;
         }
 
-        // If we click the same square again, we do this
+        // Second click on the SAME square: invert it
         if (selectedIndex === index) {
-          invertColor(index);
-          selectedIndex = null;
+          colorList[index] = invertColor(colorList[index]);
+          selectedIndex = null; // reset selection
           updateView();
           return;
         }
 
-        // If a different square is selected, we do this instead (blend them)
+        // Second click on a DIFFERENT square: blend them
         let color1 = colorList[selectedIndex];
         let color2 = colorList[index];
 
-        let blendedColor = {
-          red: Math.round((color1.red + color2.red) / 2),
-          green: Math.round((color1.green + color2.green) / 2),
-          blue: Math.round((color1.blue + color2.blue) / 2),
-        };
-
-        // Add the new blended color to our list
+        let blendedColor = blendTwoColors(color1, color2);
         colorList.push(blendedColor);
+        selectedIndex = null; // reset selection
 
-        // Reset selection, so its less sticky and yucky
+        updateView();
+      }
+
+      function createGradient(inputColor) {
+        let color1 = inputColor;
+        let color5 = invertColor(color1);
+        let color3 = blendTwoColors(color1, color5);
+        let color2 = blendTwoColors(color1, color3);
+        let color4 = blendTwoColors(color3, color5);
+
+        return [color1, color2, color3, color4, color5];
+      }
+
+      function formatGradientCss(colorArray) {
+        let rgbStrings = colorArray.map(
+          (c) => `rgb(${c.red}, ${c.green}, ${c.blue})`,
+        );
+        return `radial-gradient(circle, ${rgbStrings.join(", ")})`;
+      }
+
+      // Restored missing function!
+      function handleCreateGradientClick() {
+        if (selectedIndex === null) {
+          alert("Please click a color square first to select it!");
+          return;
+        }
+
+        let baseColor = colorList[selectedIndex];
+        let gradientColors = createGradient(baseColor);
+        let cssString = formatGradientCss(gradientColors);
+
+        gradientList.push(cssString);
         selectedIndex = null;
 
         updateView();
       }
 
-      //
-      //   function invertColor(colorObject) {
-
-      // Set basline so we can just subtract the current value from 255
-      //     let invertedColorObject = { red: 255, green: 255, blue: 255 };
-
-      // Perform the inversion
-      //     invertedColorObject.red = invertedColorObject.red - colorObject.red;
-      //     invertedColorObject.green = invertedColorObject.green - colorObject.green;
-      //     invertedColorObject.blue = invertedColorObject.blue - colorObject.blue;
-
-      // return the inverted object
-      //     return invertedColorObject;
-      //   }
-
-      //Init page
-      updateView();
+      // --- Init page ---
+      populateGrid();
     </script>
   </body>
 </html>
