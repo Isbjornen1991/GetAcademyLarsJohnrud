@@ -14,6 +14,7 @@ const tasksList = [
 // Input model variables
 let newTaskText = "";
 let newTaskResponsible = "";
+let editIndex = null;
 
 // How to ISO string dates
 const now = new Date().toISOString();
@@ -43,7 +44,7 @@ function updateView() {
 }
 
 // ------------------------------------------------------------------------
-//                              CONTROLLER
+//                           VIEW HELPERS
 // ------------------------------------------------------------------------
 
 function createTable() {
@@ -55,16 +56,31 @@ function createTable() {
     const dateText = isDone ? task.doneDate : "-";
     const checkedAttr = isDone ? 'checked="checked"' : "";
 
-    html += `
-        <tr>
-            <th>${task.text}</th>
-            <th>${task.responsible}</th>
-            <th>${dateText}</th>
-            <th><input type="checkbox" ${checkedAttr} onclick="setDone(${i})"></th>
-            <th><button onclick="deleteTask(${i})">Delete Task</button></th>
-        </tr>
-
+    if (editIndex === i) {
+      // Edit Display Mode
+      html += `
+            <tr>
+                <th><input type="text" value="${task.text}" oninput="tasksList[${i}].text = this.value" /></th>
+                <th><input type="text" value="${task.responsible}" oninput="tasksList[${i}].responsible = this.value" /></th>
+                <th>${dateText}</th>
+                <th><input type="checkbox" ${checkedAttr} onclick="setDone(${i})"></th>
+                <th><button onclick="saveTask()">Save</button></th>
+            </tr>
         `;
+    } else {
+      // Normal display Mode
+      html += `
+            <tr>
+                <th onclick="startEdit(${i})">${task.text}</th>
+                <th onclick="startEdit(${i})">${task.responsible}</th>
+                <th>${dateText}</th>
+                <th><input type="checkbox" ${checkedAttr} onclick="setDone(${i})"></th>
+                <th>
+                <button onclick="deleteTask(${i})">Delete</button>
+                </th>
+            </tr>
+        `;
+    }
   }
   return html;
 }
@@ -97,6 +113,10 @@ function createInputRow() {
 
 // Init page
 updateView();
+
+// ------------------------------------------------------------------------
+//                              CONTROLLER
+// ------------------------------------------------------------------------
 
 function setDone(index) {
   const task = tasksList[index];
@@ -134,3 +154,16 @@ function addTask() {
 
   updateView();
 }
+
+function startEdit(index) {
+  editIndex = index;
+  updateView();
+}
+
+function saveTask() {
+  editIndex = null;
+  updateView();
+}
+
+
+// Se på oppgave 153AB for å se på pagination
