@@ -73,7 +73,7 @@ let editIndex = null;
 
 // Filter & Pagination variables
 let currentPage = 0;
-const pageSize = 10;
+const pageSize = 9;
 let taskAmount = 1;
 
 // How to ISO string dates

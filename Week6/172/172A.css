@@ -168,11 +168,11 @@ button::after {
 /* Hover Triggers the Glitch Keyframe Animation */
 button:hover::after {
   opacity: 1;
-  animation: cyberpunk-glitch 1.5s infinite;
+  animation: cyberpunk-glitch 2s infinite;
 }
 
 button:hover::before {
-  transform: translate(-3px, 0);
+  transform: translate(-10px, 0);
 }
 
 /* --- Glitch Animation --- */
