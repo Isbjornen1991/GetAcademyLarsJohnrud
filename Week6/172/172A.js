@@ -303,8 +303,10 @@ function changePage(pageNumber) {
   updateView();
 }
 
+// This one probably needs expanding on to create more modes, its kind of annoying right now
+// Could add sorting by completion date, whether its completed,
+// and add inverting order on 2nd click, then reset to default on 3rd click
 function setSort(columnName) {
-  // Toggle sort off if clicked again, otherwise set it
   if (currentSort === columnName) {
     currentSort = null;
   } else {
