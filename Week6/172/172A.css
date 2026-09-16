@@ -149,7 +149,7 @@ button::before {
 
 /* Animated Glitch Layer using ::after */
 button::after {
-  content: attr(data-text); /* Pulls button label text dynamically */
+  content: attr(data-text); /* This allows to input text for the glitch effect, since it is actually separate from the main text */
   position: absolute;
   top: 0;
   left: 0;
