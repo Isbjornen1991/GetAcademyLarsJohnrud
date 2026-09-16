@@ -9,12 +9,72 @@ const tasksList = [
     doneDate: null,
     responsible: "Lars",
   },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Lars",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Kenneth",
+  },
+  {
+    text: "Complete 172 tasks",
+    doneDate: null,
+    responsible: "Kenneth",
+  },
 ];
 
 // Input model variables
 let newTaskText = "";
 let newTaskResponsible = "";
 let editIndex = null;
+
+// Filter & Pagination variables
+let currentPage = 0;
+const pageSize = 10;
+let taskAmount = 1;
 
 // How to ISO string dates
 const now = new Date().toISOString();
@@ -28,8 +88,16 @@ const dateOnly = new Date().toISOString().slice(0, 10);
 const app = document.getElementById("app");
 
 function updateView() {
+  const listToDisplay = tasksList;
+
+  totalPages = Math.ceil(listToDisplay.length / pageSize);
+  let startIndex = currentPage * pageSize;
+  let endIndex = startIndex + pageSize;
+
+  let currentItems = listToDisplay.slice(startIndex, endIndex);
+
   app.innerHTML = /*HTML*/ `
-    <table>
+      <table>
         <tr>
             <th>Task</th>
             <th>Responsible</th>
@@ -37,9 +105,19 @@ function updateView() {
             <th>Done</th>
             <th>Delete Task</th>
         </tr>
-            ${createTable()}
+            ${createTable(currentItems, startIndex)}
             ${createInputRow()}
-    </table>
+      </table>
+
+          <div class="buttonHolder">
+            <div class="buttons">
+                <button class="buttons" onclick="prevPage()">Previous Page</button>
+                <button class="buttons" onclick="nextPage()">Next Page</button>
+            </div>
+          </div>
+          <div class="buttonHolder">
+              <div class="buttons">${createPageButtons(totalPages)}</div>
+          </div>
     `;
 }
 
@@ -47,21 +125,22 @@ function updateView() {
 //                           VIEW HELPERS
 // ------------------------------------------------------------------------
 
-function createTable() {
+function createTable(inputArray, startIndex) {
   let html = "";
 
-  for (let i = 0; i < tasksList.length; i++) {
-    const task = tasksList[i];
+  for (let i = 0; i < inputArray.length; i++) {
+    const task = inputArray[i];
+    const actualIndex = startIndex + i;
     const isDone = task.doneDate !== null;
     const dateText = isDone ? task.doneDate : "-";
     const checkedAttr = isDone ? 'checked="checked"' : "";
 
-    if (editIndex === i) {
+    if (editIndex === actualIndex) {
       // Edit Display Mode
       html += `
             <tr>
-                <th><input type="text" value="${task.text}" oninput="tasksList[${i}].text = this.value" /></th>
-                <th><input type="text" value="${task.responsible}" oninput="tasksList[${i}].responsible = this.value" /></th>
+                <th><input type="text" value="${task.text}" oninput="tasksList[${actualIndex}].text = this.value" /></th>
+                <th><input type="text" value="${task.responsible}" oninput="tasksList[${actualIndex}].responsible = this.value" /></th>
                 <th>${dateText}</th>
                 <th><input type="checkbox" ${checkedAttr} onclick="setDone(${i})"></th>
                 <th><button onclick="saveTask()">Save</button></th>
@@ -71,12 +150,12 @@ function createTable() {
       // Normal display Mode
       html += `
             <tr>
-                <th onclick="startEdit(${i})">${task.text}</th>
-                <th onclick="startEdit(${i})">${task.responsible}</th>
+                <th onclick="startEdit(${actualIndex})">${task.text}</th>
+                <th onclick="startEdit(${actualIndex})">${task.responsible}</th>
                 <th>${dateText}</th>
                 <th><input type="checkbox" ${checkedAttr} onclick="setDone(${i})"></th>
                 <th>
-                <button onclick="deleteTask(${i})">Delete</button>
+                <button onclick="deleteTask(${actualIndex})">Delete</button>
                 </th>
             </tr>
         `;
@@ -136,6 +215,13 @@ function setDone(index) {
 
 function deleteTask(index) {
   tasksList.splice(index, 1);
+  decreaseTaskAmount();
+
+  const maxPage = Math.ceil(tasksList.length / pageSize) - 1;
+  if (currentPage > maxPage && currentPage > 0) {
+    currentPage = maxPage;
+  }
+
   updateView();
 }
 
@@ -152,6 +238,7 @@ function addTask() {
   newTaskText = "";
   newTaskResponsible = "";
 
+  increaseTaskAmount();
   updateView();
 }
 
@@ -165,5 +252,39 @@ function saveTask() {
   updateView();
 }
 
+function increaseTaskAmount() {
+  taskAmount++;
+}
 
+function decreaseTaskAmount() {
+  taskAmount--;
+}
+
+function nextPage() {
+  if (currentPage < totalPages - 1) {
+    currentPage++;
+    updateView();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    updateView();
+  }
+}
+
+function createPageButtons(pageCount) {
+  let buttonsHtml = "";
+
+  for (let i = 0; i < pageCount; i++) {
+    buttonsHtml += `<button onclick="changePage(${i})">${i + 1}</button>`;
+  }
+  return buttonsHtml;
+}
+
+function changePage(pageNumber) {
+  currentPage = pageNumber;
+  updateView();
+}
 // Se på oppgave 153AB for å se på pagination
