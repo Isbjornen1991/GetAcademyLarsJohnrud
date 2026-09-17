@@ -116,10 +116,10 @@ function updateView() {
   app.innerHTML = /*HTML*/ `
       <table>
         <tr>
-            <th>Task</th>
+            <th onclick="setSort('task')" style="cursor: pointer;">Task</th>
             <th onclick="setSort('responsible')" style="cursor: pointer;">Responsible ⇅</th>
-            <th>Completion Date</th>
-            <th>Done</th>
+            <th onclick="setSort('completionDate')" style="cursor: pointer;">Completion Date</th>
+            <th onclick="setSort('done')" style="cursor: pointer;">Done</th>
             <th>Delete Task</th>
         </tr>
             ${createTable(currentItems, startIndex)}
