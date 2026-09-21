@@ -95,8 +95,12 @@ function calculateChange(changeOwed) {
 
   for (let index = 3; index >= 0; index--) {
     const value = coinValueFromIndex(index);
-    const countNeeded = Math.floor(changeOwed / value);
+    const countNeeded = Math.floor(changeOwed / value); // Example: 15 / 10, here we need 15 back to the customer, and we want to give one 10
     const countToGive = Math.min(countNeeded, tempMachine[index]);
+    // Following the example above, we say, hey, we need 1 10 coin.
+    // How many actually exist in the machine? If we exceed available quantity,
+    // the min allows us to pass the remainder further down in denominations.
+    // The Math.min() static method returns the smallest of the numbers given as input parameters, or Infinity if there are no parameters. From mdn
 
     if (countToGive > 0) {
       changeToDispense[index] += countToGive;
