@@ -11,7 +11,8 @@ let isEncrypted = false;
 //                                VIEW
 // ------------------------------------------------------------------------
 function updateView() {
-  // This has to be inside of updateView() to prevent QUnit showing an extra test
+  // This const has to be inside of updateView() to prevent QUnit
+  // showing an extra test as failed, even though there is no 10th test
   const app = document.getElementById("app");
   // Safety in case app div isn't found
   if (!app) return;
@@ -28,7 +29,6 @@ function updateView() {
       <button onclick="handleEncrypt()">Krypter</button><button onclick="handleDecrypt()">Dekrypter</button>
     </div>
     <div class="outputArea">${outputText}</div>
-  
   `;
 }
 
