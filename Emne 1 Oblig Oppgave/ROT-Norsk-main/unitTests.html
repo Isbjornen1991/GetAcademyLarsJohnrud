@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <title>QUnit</title>
+  <link
+    rel="stylesheet"
+    href="https://code.jquery.com/qunit/qunit-2.26.0.css"
+  />
+  <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.26.0.js"></script>
+    <script src="logic.js"></script>
+    <script>
+      // How to test:
+      // 1. Arrange - Set model values to test values
+      // 2. Act - Run the function
+      // 3. Assert - Did the function output the expected values?
+
+      // Dummy function to prevent crash in testing if something relies on updateView()
+      // Shouldn't be needed as the tested functions don't really call on it, but I'm leaving it in as a habit
+      function updateView() {}
+
+      //Case 1
+      QUnit.test("små bokstaver forskyves riktig", function (assert) {
+        let expected = "opq";
+        let actual = encrypt("abc");
+        assert.equal(actual, expected);
+      });
+
+      //Case 2
+      QUnit.test(
+        "De norske bokstavene (æ, ø, å) bretter rundt til starten av alfabetet",
+        function (assert) {
+          let expected = "lmn";
+          let actual = encrypt("æøå");
+
+          assert.equal(actual, expected);
+        },
+      );
+
+      //Case 3
+      QUnit.test("Store bokstaver forblir store", function (assert) {
+        let expected = "LMN";
+        let actual = encrypt("ÆØÅ");
+
+        assert.equal(actual, expected);
+      });
+
+      //Case 4
+      QUnit.test(
+        "Blandet store og små bokstaver håndteres riktig",
+        function (assert) {
+          let expected = "Pxmcø";
+          let actual = encrypt("Bjørn");
+
+          assert.equal(actual, expected);
+        },
+      );
+
+      //Case 5
+      QUnit.test("Mellomrom og tegnsetting er uendret", function (assert) {
+        let expected = "Vsw, gscrsø!";
+        let actual = encrypt("Hei, verden!");
+
+        assert.equal(actual, expected);
+      });
+
+      //Case 6
+      QUnit.test("Tall er uendret", function (assert) {
+        let expected = "opq123";
+        let actual = encrypt("abc123");
+
+        assert.equal(actual, expected);
+      });
+
+      //Case 7
+      QUnit.test("Tom tekst gir tom tekst", function (assert) {
+        let expected = "";
+        let actual = encrypt("");
+
+        assert.equal(actual, expected);
+      });
+
+      //Case 8
+      QUnit.test(
+        "decrypt() reverserer encrypt() fullstendig",
+        function (assert) {
+          let expected = "text";
+          let actual = decrypt(encrypt("text"));
+
+          assert.equal(actual, expected);
+        },
+      );
+
+      //Case 9
+      QUnit.test("Chifferet er ikke selv-omvendt", function (assert) {
+        const inputText = "text";
+        const doubleEncrypted = encrypt(encrypt(inputText));
+
+        assert.notEqual(doubleEncrypted, inputText);
+      });
+      // The way I understand this^ is that we're checking if text becomes "esie" and then "esie" becomes "sdws" rather than "text" when re run it through encryption twice
+    </script>
+  </body>
+</html>
