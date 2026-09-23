@@ -1,8 +1,8 @@
 // ------------------------------------------------------------------------
 //                               Model
 // ------------------------------------------------------------------------
-// These are here for fetching input and displaying the correct text
-// and making the user experience slightly better
+// These are here for fetching input and displaying the correct
+// text output, as well as making the user experience slightly better
 let inputText = "";
 let outputText = "";
 let isEncrypted = false;
