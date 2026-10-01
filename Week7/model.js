@@ -15,7 +15,7 @@ export const model = {
   //------------------------------------------------------------------------
   customer: {
     viewState: {
-      currentPage: "main", // "main" | "cafeCheckout" | "cakeBuilder" | "cakeCheckout" | "receipt"
+      currentPage: "mainPage", // "mainPage" | "cafeCheckoutPage" | "cakeBuilderPage" | "cakeCheckoutPage" | "receiptPage"
       activeCategory: "all",
       selectedProductId: null,
     },
@@ -58,7 +58,7 @@ export const model = {
   //------------------------------------------------------------------------
   employee: {
     viewState: {
-      currentPage: "ordersMonitor", // "ordersMonitor" | "orderHistory"
+      currentPage: "ordersPage", // "ordersPage" | "orderHistoryPage"
       selectedOrderId: null,
     },
   },
@@ -68,7 +68,7 @@ export const model = {
   //------------------------------------------------------------------------
   admin: {
     viewState: {
-      currentPage: "dashboard", // "dashboard" | "products" | "categories" | "hours"
+      currentPage: "dashboardPage", // "dashboardPage" | "productsPage" | "categoriesPage" | "hoursPage"
       editingProductId: null,
     },
     productForm: {
@@ -125,6 +125,9 @@ export const model = {
     ],
 
     categories: ["Baguetter", "Kaker", "Snitter", "Kaffe"],
+    //------------------------------------------------------------------------
+    //                             Hours
+    //------------------------------------------------------------------------
 
     openingHours: {
       mandag: { open: "10:00", close: "18:00" },
@@ -220,6 +223,7 @@ export const model = {
         role: "customer",
         username: "customer1",
         password: "mostSecurePassword",
+        previousOrders: ["AXG101"],
       },
     ],
   },
